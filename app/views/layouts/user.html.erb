@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1" />
+		<meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+
+		<title>Ocean - Home</title>
+		<link href="img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+		<%= stylesheet_link_tag "user/application", :media => "all" %>
+		<%=	 javascript_include_tag "user/application" %>
+	</head>
+	<body class="o-page">
+		<div id="page">
+			<!-- Header -->
+			<div id="header">
+				<a href="#menu"></a>
+				<span id="Logo" class="svg">
+					<h1>Workshop Finder</h1>
+				</span>
+			</div>
+			<div class="subHeader"><i class="i-home i-small"></i>Welcome friend!</div>
+			
+			<!-- Content -->
+			<div id="content">
+
+				<%= yield %>
+				
+			</div>
+			
+			
+			<!-- Menu navigation -->
+			<nav id="menu">
+				<ul>
+					<li class="Selected">
+						<a href="index.html">
+							<i class="i-home i-small"></i>Home
+						</a>
+					</li>
+					<li>
+						<a href="about.html">
+							<i class="i-about i-small"></i>About
+						</a>
+					</li>
+					<li>
+						<a href="blog.html">
+							<i class="i-blog i-small"></i>Blog
+						</a>
+						<ul>
+							<li><a href="blog-single-post.html">First Post</a></li>
+							<li>
+								<a href="blog-single-post.html">Second Post</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="gallery.html">
+							<i class="i-gallery i-small"></i>Gallery
+						</a>
+					</li>
+					<li>
+						<a href="shortcodes.html">
+							<i class="i-shortcodes i-small"></i>Shortcodes
+						</a>
+					</li>
+					<li>
+						<a href="contact.html">
+							<i class="i-contact i-small"></i>Contact
+						</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</body>
+</html>

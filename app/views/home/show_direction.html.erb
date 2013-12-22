@@ -1,0 +1,46 @@
+
+  <div id="map_canvas" style="width:100%; height:3000px;"></div>
+  <ul id="instructions">
+  </ul>
+
+<script type="text/javascript">
+var map;
+$(document).ready(function(){
+  map = new GMaps({
+    el: '#map_canvas',
+    lat: <%= @user_location.first %>,
+    lng: <%= @user_location.last %>
+  });
+
+  map.addMarker({
+    lat: <%= @user_location.first %>,
+    lng: <%= @user_location.last %>,
+    title: 'User Location'
+  });
+
+  map.addMarker({
+    lat: <%= @workshop.latitude %>,
+    lng: <%= @workshop.longitude %>,
+    title: '<%= @workshop.name %>'
+  });
+
+  map.travelRoute({
+    origin: <%= @user_location %>,
+    destination: [<%= @workshop.latitude%>, <%= @workshop.longitude %>],
+    travelMode: 'driving',
+    step: function(e) {
+      $('#instructions').append('<li>'+e.instructions+'</li>');
+      $('#instructions li:eq(' + e.step_number + ')').delay(450 * e.step_number).fadeIn(20000, function() {
+        map.drawPolyline({
+          path: e.path,
+          strokeColor: '#FF0000',
+          strokeOpacity: 0.5,
+          strokeWeight: 10
+        });  
+      });
+    }
+  });
+});
+
+
+</script>

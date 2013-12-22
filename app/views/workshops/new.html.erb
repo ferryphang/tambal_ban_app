@@ -1,0 +1,14 @@
+<h2>New Workshop</h2>
+
+<%= form_for @workshop do |f| %>
+	<%= f.label :name %>
+	<%= f.text_field :name %>
+
+	<%= f.label :address %>
+	<%= f.text_field :address %>
+	
+	<%= f.label :about %>
+	<%= f.text_area :about %>
+	<br>
+	<%= f.submit 'Send', class: 'btn btn-success' %>
+<% end %>

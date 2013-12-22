@@ -1,0 +1,26 @@
+<%= link_to 'New Workshop', new_workshop_path, class: "btn btn-primary" %>
+
+<table class="table">
+	<thead>
+		<th>Name</th>
+		<th>Address</th>
+		<th>About</th>
+		<th>Latitude | Longitude</th>
+		<th></th>
+		<th></th>
+		<th></th>
+	</thead>
+	<tbody>
+		<% @workshops.each do |workshop| %>
+			<tr>
+			<td><%= workshop.name %></td>
+			<td><%= workshop.address %></td>
+			<td><%= workshop.about.truncate(15) %></td>
+			<td><%= "#{workshop.latitude}, #{workshop.longitude}" %></td>
+			<td><%= link_to 'Show', workshop_path(workshop) %></td>
+			<td><%= link_to 'Edit', edit_workshop_path(workshop) %></td>
+			<td><%= link_to 'Delete', workshop_path(workshop), method: :delete %></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
