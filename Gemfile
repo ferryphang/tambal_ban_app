@@ -15,3 +15,5 @@ gem "twitter-bootstrap-rails"
 gem "geocoder"
 gem "gmapsjs"
 gem 'debugger', group: [:development, :test]
+gem "quiet_assets"
+gem "rails-footnotes", git: "git@github.com:josevalim/rails-footnotes.git"
