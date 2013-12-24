@@ -1,24 +1,22 @@
-<%= link_to 'New Workshop', new_workshop_path, class: "btn btn-primary" %>
-
-<table class="table">
+<%= link_to 'New Workshop', new_workshop_path, class: "btn btn-primary", 'data-no-turbolink' => true %>
+<hr>
+<table class="table table-bordered">
 	<thead>
 		<th>Name</th>
 		<th>Address</th>
-		<th>About</th>
 		<th>Latitude | Longitude</th>
 		<th></th>
 		<th></th>
 		<th></th>
 	</thead>
 	<tbody>
-		<% @workshops.each do |workshop| %>
+		<% @workshops.includes(:location).each do |workshop| %>
 			<tr>
 			<td><%= workshop.name %></td>
 			<td><%= workshop.address %></td>
-			<td><%= workshop.about.truncate(15) %></td>
-			<td><%= "#{workshop.latitude}, #{workshop.longitude}" %></td>
-			<td><%= link_to 'Show', workshop_path(workshop) %></td>
-			<td><%= link_to 'Edit', edit_workshop_path(workshop) %></td>
+				<td><%= "#{workshop.location.latitude}, #{workshop.location.longitude}" %></td>
+			<td><%= link_to 'Show', workshop_path(workshop),'data-no-turbolink' => true %></td>
+			<td><%= link_to 'Edit', edit_workshop_path(workshop), 'data-no-turbolink' => true %></td>
 			<td><%= link_to 'Delete', workshop_path(workshop), method: :delete %></td>
 			</tr>
 		<% end %>

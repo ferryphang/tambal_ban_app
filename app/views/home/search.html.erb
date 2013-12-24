@@ -7,30 +7,40 @@
   <% @list_workshops.each do |workshop| %>
   <tr>
     <%= form_for workshop, url: show_direction_home_path(workshop.id), method: :post, class: "contactForm" do |f|%>
-      <%= f.hidden_field :user, value: @user_location %>
-      <td>
-      <%= f.submit workshop.name, class: "btn-normal"  %>
-      </td>
+      <%= f.hidden_field :latitude, value: @user_location.first %>
+      <%= f.hidden_field :longitude, value: @user_location.last %>
+      <td><%= f.submit workshop.place.name %></td>
     <% end %>
     
-    <td><%= workshop.address %></td>
-    <td><%= workshop.distance_from(@user_location) %> miles</td>
+    <td><%= workshop.place.address %></td>
+    <%= content_tag(:td,"workshop#{workshop.place.id}", id: "workshop#{workshop.place.id}") %>
+    <div id="map_canvas"></div>
+
+    <script type="text/javascript">
+    map = new GMaps({
+        el: '#map_canvas',
+        lat: <%= @user_location.first %>,
+        lng: <%= @user_location.last %>,
+        zoom: 18
+      });
+
+    map.getRoutes({
+      origin: [<%= @user_location.first.to_f %>, <%= @user_location.last.lstrip.to_f %>],
+      destination: [<%= workshop.latitude %>, <%= workshop.longitude %>],
+      callback: function (e) 
+      {
+        var time = 0;
+        var distance = 0;
+        for (var i=0; i<e[0].legs.length; i++) 
+        {
+          time += e[0].legs[i].duration.value;
+          distance += e[0].legs[i].distance.value;
+        }
+        $("td#workshop<%= workshop.place.id %>").text(distance*0.001 + ' KM');
+      }
+      });
+    </script>
+
   </tr>
   <% end %>
 </table>
-
-<form id="contact" class="contactForm">
-          
-          <label>Full Name <span class="required">*</span></label>
-          <input type="text" name="name" id="ContactName" placeholder="Name">
-          
-          <label>Email <span class="required">*</span></label>
-          <input type="email" name="mail" id="ContactEmail" placeholder="Email">
-          
-          <label>Message <span class="required">*</span></label>
-          <textarea id="ContactMessage" name="comment" placeholder="Message"></textarea>
-          
-          <input type="submit"  class="btn-normal" id="SubmitContact" value="send">
-          
-          <div id="msg" class="notifications" style="display:none"></div>
-        </form>

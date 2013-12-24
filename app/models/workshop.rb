@@ -1,10 +1,8 @@
 class Workshop < ActiveRecord::Base
-
-	geocoded_by :address
-	after_validation :geocode 
-
-
-	validates :name, presence: true
+  has_one :location, as: :place, dependent: :destroy
+  has_one :category, as: :brand
+	
+  validates :name, presence: true
 	validates :address, presence: true	
 	validates :about, presence:true
 

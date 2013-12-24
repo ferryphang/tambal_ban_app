@@ -10,8 +10,10 @@ gem 'jbuilder', '~> 1.2'
 
 gem 'devise'
 gem "twitter-bootstrap-rails"
-
+gem 'ckeditor_rails'
+gem 'jquery-ui-rails'
 
 gem "geocoder"
 gem "gmapsjs"
 gem 'debugger', group: [:development, :test]
+gem 'quiet_assets', :group => :development

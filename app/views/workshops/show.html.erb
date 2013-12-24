@@ -21,17 +21,14 @@ $( document ).ready(function() {
   var map = new GMaps({
     div: '#map_canvas',
     zoom: 19,
-   	lat: <%= @workshop.latitude %>,
-   	lng: <%= @workshop.longitude %>
+   	lat: <%= @workshop.location.latitude %>,
+   	lng: <%= @workshop.location.longitude %>
   });
 
   map.addMarker({
-    lat: <%= @workshop.latitude %>,
-    lng: <%= @workshop.longitude %>,
-    title: 'Lima',
-    click: function(e) {
-      alert('You clicked in this marker');
-    }
+    lat: <%= @workshop.location.latitude %>,
+    lng: <%= @workshop.location.longitude %>,
+    title: '<%= @workshop.name %>',
   });
 
 });
