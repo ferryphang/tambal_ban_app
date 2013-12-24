@@ -1,11 +1,9 @@
 LastProject::Application.routes.draw do
-
-  get "category/index"
-  get "category/new"
-  get "category/edit"
-  devise_for :admins
   root 'home#index'
 
+  devise_for :admins
+  resources 'badges'
+  resources 'categories'
   resources 'home' do 
   	collection do
   		post 'search'

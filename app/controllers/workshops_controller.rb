@@ -28,15 +28,12 @@ class WorkshopsController < ApplicationController
 	end
 
 	def update
-
-
     if @workshop.update(set_params)
       @workshop.location.update_attributes(latitude: params[:lat], longitude: params[:lng])
       redirect_to @workshop, notice: 'Workshop was successfully updated.' 
     else
       redirect_to @workshop, notice: 'Workshop accidentally failed.' 
    	end
-
   end
 
 	def destroy

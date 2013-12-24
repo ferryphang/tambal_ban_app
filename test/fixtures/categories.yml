@@ -2,6 +2,14 @@
 
 one:
   name: MyString
+<<<<<<< HEAD
 
 two:
   name: MyString
+=======
+  picture_marker: MyString
+
+two:
+  name: MyString
+  picture_marker: MyString
+>>>>>>> 8d29ad5417040d6d66bf51545a355e56c9643cbb

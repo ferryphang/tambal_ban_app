@@ -16,4 +16,8 @@ gem 'jquery-ui-rails'
 gem "geocoder"
 gem "gmapsjs"
 gem 'debugger', group: [:development, :test]
+
 gem 'quiet_assets', :group => :development
+
+gem "carrierwave"
+gem "mini_magick"
