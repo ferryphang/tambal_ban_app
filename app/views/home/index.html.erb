@@ -1,11 +1,9 @@
 <h1>Click the button to find nearest location</h1>
 <%= form_tag search_home_index_path, :id => 'form_user' do %>
-<%= text_field_tag :user_location %>
-<%= submit_tag "Get Location" %>
-
+<%= hidden_field_tag :user_location %>
+<%= select_tag(:category, options_from_collection_for_select(Category.all, "id", "name")) %>
+<button type="submit">Get Nearby Location</button>
 <% end %>
-
-<%= link_to 'Find', search_home_index_path %>
 
 <script type="text/javascript">
   function getLocation(){

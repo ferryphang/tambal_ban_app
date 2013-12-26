@@ -1,6 +1,9 @@
 class Workshop < ActiveRecord::Base
-  has_one :location, as: :place, dependent: :destroy
-  has_one :category, as: :brand
+	acts_as_commentable
+	
+	has_one :location, dependent: :destroy
+	belongs_to :category
+	belongs_to :creator, polymorphic: true
 	
   validates :name, presence: true
 	validates :address, presence: true	

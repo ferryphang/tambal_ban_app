@@ -1,19 +1,20 @@
-<table class="table table-condensed">
+<legend align="center">List of nearby locations</legend>
+<table>
   <thead>
-    <th>Name</th>
+    <th><strong>Name</strong></th>
     <th>Address</th>
     <th>Distance</th>
   </thead>
-  <% @list_workshops.each do |workshop| %>
+  <% @locations.each do |location| %>
   <tr>
-    <%= form_for workshop, url: show_direction_home_path(workshop.id), method: :post, class: "contactForm" do |f|%>
+    <%= form_for location, url: show_direction_home_path(location.id), method: :post, class: "contactForm", 'data-no-turbolink' => true do |f|%>
       <%= f.hidden_field :latitude, value: @user_location.first %>
       <%= f.hidden_field :longitude, value: @user_location.last %>
-      <td><%= f.submit workshop.place.name %></td>
+      <td><button type="submit"><%= location.workshop.name %></button></td>
     <% end %>
     
-    <td><%= workshop.place.address %></td>
-    <%= content_tag(:td,"workshop#{workshop.place.id}", id: "workshop#{workshop.place.id}") %>
+    <td><%= location.workshop.address %></td>
+    <%= content_tag(:td,"location#{location.workshop.id}", id: "location#{location.workshop.id}") %>
     <div id="map_canvas"></div>
 
     <script type="text/javascript">
@@ -26,7 +27,7 @@
 
     map.getRoutes({
       origin: [<%= @user_location.first.to_f %>, <%= @user_location.last.lstrip.to_f %>],
-      destination: [<%= workshop.latitude %>, <%= workshop.longitude %>],
+      destination: [<%= location.latitude %>, <%= location.longitude %>],
       callback: function (e) 
       {
         var time = 0;
@@ -36,7 +37,7 @@
           time += e[0].legs[i].duration.value;
           distance += e[0].legs[i].distance.value;
         }
-        $("td#workshop<%= workshop.place.id %>").text(distance*0.001 + ' KM');
+        $("td#location<%= location.workshop.id %>").text(distance*0.001 + ' KM');
       }
       });
     </script>

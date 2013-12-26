@@ -14,7 +14,6 @@
 //= require jquery_ujs
 //= require ckeditor-jquery
 //= require twitter/bootstrap
-//= require turbolinks
 //= require jquery.ui.all
 //= require gmapsjs
 //= require_tree .

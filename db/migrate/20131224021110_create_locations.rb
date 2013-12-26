@@ -1,7 +1,7 @@
 class CreateLocations < ActiveRecord::Migration
   def change
     create_table :locations do |t|
-      t.references :place, polymorphic: true
+      t.belongs_to :workshop
       t.float :latitude
       t.float :longitude
       t.timestamps

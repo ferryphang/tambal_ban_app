@@ -1,8 +1,33 @@
-  <ul id="instructions">
-  </ul>
-  <p id="Distance" />
-  <div id="map_canvas" style="width:100%; height:700px;"></div>
-  <%= image_tag 'road.png' %>
+<fieldset>
+  <h3 id="Distance"></h3>
+  <legend class="title"><span>Instructions</span></legend>
+  <ul id="instructions"></ul>
+</fieldset>
+<fieldset>
+  <legend class="title"><span>Map location</span></legend>
+  <div id="map_canvas" style="height:350px;"></div>
+</fieldset>
+  <div class="span6">
+    <ul>
+      <% @workshop.comment_threads.each do |comment| %>
+      <li><%= comment.body %>asdas</li>
+      <% end %>
+    </ul>
+  </div>
+  <% if user_signed_in? %>
+  <div class="span6">
+    <%= form_for @workshop, url: create_comment_workshop_path(@workshop), method: :post do |f| %>
+      <%= label_tag :body %>
+      <%= text_area_tag :body, nil %>
+      <%= submit_tag 'Send Comment' %>
+    <% end %>
+  </div>
+  <% else %>
+  <hr>
+  <p>Login to give comment</p>
+  <%= link_to 'Sign In', new_user_session_path %> 
+  <% end %>
+
 <script type="text/javascript">
 var map;
 $(document).ready(function(){
@@ -10,7 +35,7 @@ $(document).ready(function(){
     el: '#map_canvas',
     lat: <%= @user_location.first %>,
     lng: <%= @user_location.last %>,
-    zoom: 18
+    zoom: 17
   });
 
   map.addMarker({
@@ -57,7 +82,7 @@ $(document).ready(function(){
               time += e[0].legs[i].duration.value;
               distance += e[0].legs[i].distance.value;
           }
-          $('p#Distance').text(distance*0.001 + ' KM');
+          $('h3#Distance').text(distance*0.001 + ' KM from your position');
       }
   });
 

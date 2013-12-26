@@ -1,0 +1,61 @@
+<h2>New Workshop</h2>
+
+<%= form_for @workshop, url: admin_workshops_path do |f| %>
+	<%= f.label :name %>
+	<%= f.text_field :name %>
+
+  <%= f.label :category %>
+  <%= f.collection_select :category_id, Category.all, :id, :name %>
+  
+  <%= f.label :status %>
+  <%= f.check_box :status %>
+  
+	<%= f.label :address %>
+	<%= f.text_field :address, id: "addresspicker_map" %>
+  <%= hidden_field_tag :lat, :lat, id: "lat" %>
+  <%= hidden_field_tag :lng, :lng, id: "lng" %>
+  
+  <div class='map-wrapper'>
+      <label id="geo_label" for="reverseGeocode">Reverse Geocode after Marker Drag?</label>
+      <select id="reverseGeocode">
+        <option value="false" selected>No</option>
+        <option value="true">Yes</option>
+      </select><br/>
+
+    <div id="map_x" style="width:400px; height:400px;"></div>
+      <div id="legend">You can drag and drop the marker to the correct location</div>
+    </div>
+	<%= f.label :about %>
+	<%= f.text_area :about, :class => 'ckeditor' %>
+	<br>
+	<%= f.submit 'Send', class: 'btn btn-success' %>
+<% end %>
+
+<script type="text/javascript">
+  $(function() {
+   
+    var addresspickerMap = $( "#addresspicker_map" ).addresspicker({
+      regionBias: "id",
+      updateCallback: showCallback,
+      elements: {
+        map:      "#map_x",
+        lat:      "#lat",
+        lng:      "#lng"
+      }
+    });
+
+    var gmarker = addresspickerMap.addresspicker( "marker");
+    gmarker.setVisible(true);
+    addresspickerMap.addresspicker( "updatePosition");
+
+    $('#reverseGeocode').change(function(){
+      $("#addresspicker_map").addresspicker("option", "reverseGeocode", ('true'));
+    });
+
+    function showCallback(geocodeResult, parsedGeocodeResult){
+      $('#callback_result').text(JSON.stringify(parsedGeocodeResult, null, 4));
+    }
+
+  });
+
+</script>

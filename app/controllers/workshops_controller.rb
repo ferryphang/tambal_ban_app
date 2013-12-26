@@ -1,52 +1,76 @@
 class WorkshopsController < ApplicationController
-	layout 'admin'
-	before_action :authenticate_admin!
-	before_action :get_workshop, only: [:show, :destroy, :edit, :update]
-	def index 
-		@workshops = Workshop.all
-	end
+  before_action :set_workshop, only: [:show, :edit, :update]
+  before_action :authenticate_user!
+  layout 'user'
 
-	def new 
-		@workshop = Workshop.new
-	end
+  def create_comment
+    get_workshop
+    @comment = Comment.build_from(@workshop, current_user.id, params[:body] )
+    if @comment.save
+    redirect_to root_path, notice: "Your comment submitted"
+    end
+  end
+  
+  def create_rating
+    get_workshop
+    @rating = current_user.ratings.new workshop_id: @workshop.id, value: params[:value]
 
-	def create
-		debugger
-		@workshop = Workshop.new(set_params)
-		@workshop.build_location latitude: params[:lat], longitude: params[:lng]
-		if @workshop.save
-			redirect_to workshops_path, notice: "New Workshop successfully created"
-		else
-			redirect_to workshops_path, alert: "New Workshop failed"
-		end
-	end
-
-	def show
-	end
-
-	def edit
-	end
-
-	def update
-    if @workshop.update(set_params)
-      @workshop.location.update_attributes(latitude: params[:lat], longitude: params[:lng])
-      redirect_to @workshop, notice: 'Workshop was successfully updated.' 
+    if @rating.save
+      redirect_to root_path, notice: "Your rating submitted to #{@workshop.name}"
     else
-      redirect_to @workshop, notice: 'Workshop accidentally failed.' 
-   	end
+      redirect_to root_path, notice: "Your rating failed to submit"
+    end
+
+  end  
+  def index
+    @workshops = current_user.workshops
+  end
+ 
+  def show
   end
 
-	def destroy
-		@workshop.destroy
-    redirect_to workshops_path, notice: "Workshop successfully deleted"
-	end
+  def new
+    @workshop = current_user.workshops.new
+  end
 
-	private
-		def set_params
-			params[:workshop].permit(:name, :address, :about, :lat, :lng)
-		end
+  def edit
+  end
 
-		def get_workshop
-			@workshop = Workshop.find_by id: params[:id]
-		end
+  def create
+    @workshop = current_user.workshops.new(workshop_params)
+    @workshop.build_location latitude: params[:lat], longitude: params[:lng]
+
+    respond_to do |format|
+      if @workshop.save
+        format.html { redirect_to @workshop, notice: 'Workshop was successfully created.' }
+      else
+        format.html { render action: 'new' }
+      end
+    end
+  end
+
+  def update
+    respond_to do |format|
+      if @workshop.update(workshop_params)
+        format.html { redirect_to @workshop, notice: 'Workshop was successfully updated.' }
+      else
+        format.html { render action: 'edit' }      
+      end
+    end
+  end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+
+    def get_workshop
+      @workshop = Workshop.find(params[:id])
+    end
+    def set_workshop
+      @workshop = current_user.workshops.find(params[:id])
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def workshop_params
+      params[:workshop].permit(:name, :address, :about, :lat, :lng, :category_id)
+    end
 end
