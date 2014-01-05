@@ -19,7 +19,11 @@ LastProject::Application.routes.draw do
 
   # MEMBER
   devise_for :users
-  resources 'users', only: [:show]
+  resources 'users', only: [:show] do
+    member do
+      patch 'profile'
+    end
+  end
   resources 'workshops', except: [:destroy] do
     member do
       post 'create_comment'

@@ -1,12 +1,7 @@
 
 <%= form_for @workshop do |f| %>
-  <%= f.label :name %>
-  <%= f.text_field :name %>
-
-  <%= f.label :category %>
+  <%= f.text_field :name, placeholder: "Name" %>
   <%= f.collection_select :category_id, Category.all, :id, :name %>
-  
-  <%= f.label :address %>
   <%= f.text_field :address, id: "addresspicker_map" %>
   <%= hidden_field_tag :lat, :lat, id: "lat" %>
   <%= hidden_field_tag :lng, :lng, id: "lng" %>
@@ -21,8 +16,7 @@
     <div id="map_x" style="width:400px; height:400px;"></div>
       <div id="legend">You can drag and drop the marker to the correct location</div>
     </div>
-  <%= f.label :about %>
-  <%= f.text_area :about, :class => 'ckeditor' %>
+  <%= f.text_area :about %>
   <br>
   <%= f.submit 'Send', class: 'btn btn-success' %>
 <% end %>

@@ -1,33 +1,34 @@
-<h1>Listing workshops</h1>
+<% unless @workshops.blank? %>
+  <h1>Listing workshops</h1>
 
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Address</th>
-      <th>Category</th>
-      <th>Latitude | Longitude</th>
-      <th>Status</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @workshops.includes(:location,:category).each do |workshop| %>
+  <table class="table table-bordered">
+    <thead>
       <tr>
-        <td><%= workshop.name %></td>
-        <td><%= workshop.address %></td>
-        <td><%= workshop.category.name %></td>
-        <td><%= "#{workshop.location.latitude}, #{workshop.location.longitude}" %></td>
-        <td><%= workshop.status %></td>
-        <td><%= link_to 'Show', workshop, 'data-no-turbolink' => true %></td>
-        <td><%= link_to 'Edit', edit_workshop_path(workshop), 'data-no-turbolink' => true %></td>
-        <td><%= link_to 'Destroy', workshop, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Category</th>
+        <th>Latitude | Longitude</th>
+        <th>Status</th>
+        <th colspan="3"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
-
-<%= link_to 'New Workshop', new_workshop_path %>
+    <tbody>
+      <% @workshops.includes(:location,:category).each do |workshop| %>
+        <tr>
+          <td><%= workshop.name %></td>
+          <td><%= workshop.address %></td>
+          <td><%= workshop.category.name %></td>
+          <td><%= "#{workshop.location.latitude}, #{workshop.location.longitude}" %></td>
+          <td><%= workshop.status %></td>
+          <td><%= link_to 'Show', workshop, 'data-no-turbolink' => true %></td>
+          <td><%= link_to 'Edit', edit_workshop_path(workshop), 'data-no-turbolink' => true %></td>
+          <td><%= link_to 'Destroy', workshop, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <h2>Sorry, you dont create any workshops yet</h2>
+<% end %>
+<%= link_to 'Create Workshop', new_workshop_path %>

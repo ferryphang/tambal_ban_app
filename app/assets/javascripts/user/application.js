@@ -13,5 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require ckeditor-jquery
+//= require jquery.ui.all
 //= require gmapsjs
 //= require_tree .

@@ -1,6 +1,10 @@
   <h3 id="Distance"></h3>
-  <legend class="title"><span>Instructions</span></legend>
-  <ul id="instructions"></ul>
+
+  <div id="instructions_container">
+    <legend class="title"><span>Instructions</span></legend>
+    <ul id="instructions"></ul>
+  </div>
+
   <legend class="title"><span>Map location</span></legend>
   <div id="map_canvas" style="height:350px;"></div>
   <div class="span6">
@@ -27,29 +31,35 @@
 <script type="text/javascript">
 var map;
 $(document).ready(function(){
+
+  var coordinate = {
+    origin: [<%= @user_location.first %>,<%= @user_location.last %>],
+    destination: [<%= @workshop.location.latitude%>, <%= @workshop.location.longitude %>]
+  }
+
   map = new GMaps({
     el: '#map_canvas',
-    lat: <%= @user_location.first %>,
-    lng: <%= @user_location.last %>,
+    lat: coordinate.origin[0],
+    lng: coordinate.origin[1],
     zoom: 17
   });
 
   map.addMarker({
-    lat: <%= @user_location.first %>,
-    lng: <%= @user_location.last %>,
+    lat: coordinate.origin[0],
+    lng: coordinate.origin[1],
     title: 'User Location'
   });
 
   map.addMarker({
-    lat: <%= @workshop.location.latitude %>,
-    lng: <%= @workshop.location.longitude %>,
+    lat: coordinate.destination[0],
+    lng: coordinate.destination[1],
     title: '<%= @workshop.name %>',
     icon: "/assets/compressor.png"
   });
 
   map.travelRoute({
-    origin: [<%= @user_location.first %>,<%= @user_location.last %>],
-    destination: [<%= @workshop.location.latitude%>, <%= @workshop.location.longitude %>],
+    origin: coordinate.origin,
+    destination: coordinate.destination,
     travelMode: 'walking',
     step: function(e) {
       $('#instructions').append('<li>'+e.instructions+'</li>');
