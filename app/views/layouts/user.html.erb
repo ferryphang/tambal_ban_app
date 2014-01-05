@@ -17,17 +17,17 @@
     <nav class="st-menu st-effect-4">
       <ul>
         <li><h1>Dashboard</h1></li>
-        <li><%= link_to 'Home', root_path %></li>
+        <li><%= link_to 'Home', root_path, class: "ico home" %></li>
         <% if admin_signed_in? %>
           <li><%= link_to "Admin - Sign Out", destroy_admin_session_path, method: :delete  %></li>
-          <li><%= link_to "Workshops", admin_workshops_path  %></li>
-          <li><%= link_to "Category", admin_categories_path  %></li>
+          <li><%= link_to "Workshops", admin_workshops_path, class: "ico services" %></li>
+          <li><%= link_to "Category", admin_categories_path, class: "ico typography" %></li>
         <% else %>
           <li><%# link_to "Admin - Sign In", new_admin_session_path  %></li>
         <% end %>
 
         <% if user_signed_in? %>
-          <li><%= link_to "My Workshop", workshops_path %></li>
+          <li><%= link_to "My Workshop", workshops_path, class: "ico services" %></li>
           <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete  %></li>
         <% end %>
         </li>

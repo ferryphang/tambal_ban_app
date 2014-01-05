@@ -5,7 +5,6 @@ LastProject::Application.routes.draw do
     collection do
       post 'search'
     end
-
     member do 
       post 'show_direction'
     end
@@ -20,6 +19,7 @@ LastProject::Application.routes.draw do
 
   # MEMBER
   devise_for :users
+  resources 'users', only: [:show]
   resources 'workshops', except: [:destroy] do
     member do
       post 'create_comment'

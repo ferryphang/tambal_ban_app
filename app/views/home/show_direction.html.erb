@@ -1,12 +1,8 @@
-<fieldset>
   <h3 id="Distance"></h3>
   <legend class="title"><span>Instructions</span></legend>
   <ul id="instructions"></ul>
-</fieldset>
-<fieldset>
   <legend class="title"><span>Map location</span></legend>
   <div id="map_canvas" style="height:350px;"></div>
-</fieldset>
   <div class="span6">
     <ul>
       <% @workshop.comment_threads.each do |comment| %>
@@ -18,7 +14,7 @@
   <div class="span6">
     <%= form_for @workshop, url: create_comment_workshop_path(@workshop), method: :post do |f| %>
       <%= label_tag :body %>
-      <%= text_area_tag :body, nil %>
+      <%= text_area_tag :body, placeholder: "Comment Here" %>
       <%= submit_tag 'Send Comment' %>
     <% end %>
   </div>

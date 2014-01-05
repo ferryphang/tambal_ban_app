@@ -3,25 +3,6 @@ class WorkshopsController < ApplicationController
   before_action :authenticate_user!
   layout 'user'
 
-  def create_comment
-    get_workshop
-    @comment = Comment.build_from(@workshop, current_user.id, params[:body] )
-    if @comment.save
-    redirect_to root_path, notice: "Your comment submitted"
-    end
-  end
-  
-  def create_rating
-    get_workshop
-    @rating = current_user.ratings.new workshop_id: @workshop.id, value: params[:value]
-
-    if @rating.save
-      redirect_to root_path, notice: "Your rating submitted to #{@workshop.name}"
-    else
-      redirect_to root_path, notice: "Your rating failed to submit"
-    end
-
-  end  
   def index
     @workshops = current_user.workshops
   end
@@ -49,6 +30,25 @@ class WorkshopsController < ApplicationController
     end
   end
 
+  def create_comment
+    get_workshop
+    @comment = Comment.build_from(@workshop, current_user.id, params[:body] )
+    if @comment.save
+    redirect_to root_path, notice: "Your comment submitted"
+    end
+  end
+  
+  def create_rating
+    get_workshop
+    @rating = current_user.ratings.new workshop_id: @workshop.id, value: params[:value]
+
+    if @rating.save
+      redirect_to root_path, notice: "Your rating submitted to #{@workshop.name}"
+    else
+      redirect_to root_path, notice: "Your rating failed to submit"
+    end
+  end  
+
   def update
     respond_to do |format|
       if @workshop.update(workshop_params)
@@ -60,16 +60,14 @@ class WorkshopsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-
     def get_workshop
       @workshop = Workshop.find(params[:id])
     end
+
     def set_workshop
       @workshop = current_user.workshops.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def workshop_params
       params[:workshop].permit(:name, :address, :about, :lat, :lng, :category_id)
     end

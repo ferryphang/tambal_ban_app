@@ -2,7 +2,7 @@
 <%= form_tag search_home_index_path, :id => 'form_user' do %>
 <%= hidden_field_tag :user_location %>
 <%= select_tag(:category, options_from_collection_for_select(Category.all, "id", "name")) %>
-<button type="submit">Get Nearby Location</button>
+<button type="submit" id="trigger" disabled>Please enable your location sharing</button>
 <% end %>
 
 <script type="text/javascript">
@@ -10,6 +10,8 @@
     if (navigator.geolocation){
       navigator.geolocation.getCurrentPosition(function(position){
         $('#user_location').val(position.coords.latitude + ", " + position.coords.longitude);
+        $('button[type="submit"]').removeAttr('disabled');
+        $("#trigger").html('Find');
       });
     }else{
       alert("Geolocation is not supported by this browser.");

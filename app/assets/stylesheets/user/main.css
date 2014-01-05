@@ -270,7 +270,7 @@ header  h1 {
 	width: 50px;
 	height: 50px;
 	background: center center no-repeat transparent;
-	background-image: url('../img/menu_bars.png');
+	background-image: url('menu_bars.png');
 	box-shadow: none;
 	position: absolute;
 	top: 0;
@@ -400,7 +400,7 @@ header  h1 {
 	background-color: transparent;
 	background-repeat: no-repeat;
 	background-position: 0px 0px;
-	background-image: url(image_path('ico-box_icons.png'));
+	background-image: url('ico-box_icons.png');
 }
 .st-content .ico-box .new {			background-position: 0px 0px; }
 .st-content .ico-box .redesign {		background-position: 0px -32px; }
@@ -591,7 +591,7 @@ header  h1 {
 .st-menu .ico {
 	background-position: 0px 0px;
 	background-repeat: no-repeat;
-	background-image: url('../img/menu_icons.png');
+	background-image: url('menu_icons.png');
 }
 .st-menu .search {		background-position: 0px 4px; }
 .st-menu .home {			background-position: 0px -36px; }

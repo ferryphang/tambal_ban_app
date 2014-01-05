@@ -1,47 +1,60 @@
-<legend align="center">List of nearby locations</legend>
-<table>
-  <thead>
-    <th><strong>Name</strong></th>
-    <th>Address</th>
-    <th>Distance</th>
-  </thead>
-  <% @locations.each do |location| %>
-  <tr>
-    <%= form_for location, url: show_direction_home_path(location.id), method: :post, class: "contactForm", 'data-no-turbolink' => true do |f|%>
-      <%= f.hidden_field :latitude, value: @user_location.first %>
-      <%= f.hidden_field :longitude, value: @user_location.last %>
-      <td><button type="submit"><%= location.workshop.name %></button></td>
-    <% end %>
-    
-    <td><%= location.workshop.address %></td>
-    <%= content_tag(:td,"location#{location.workshop.id}", id: "location#{location.workshop.id}") %>
-    <div id="map_canvas"></div>
+<% if @locations.size == 0 %>
 
-    <script type="text/javascript">
-    map = new GMaps({
-        el: '#map_canvas',
-        lat: <%= @user_location.first %>,
-        lng: <%= @user_location.last %>,
-        zoom: 18
-      });
+  <h3>Boom, there is no nearby location you are looking for</h3>
+  <h3>Back to <b><%= link_to 'Home', root_path %></b></h3>
+<% else %>
+  <div class="ico-box">
+    <i class="ico redesign"></i>
+    <h3 class="text-left">Result <%= @locations.size %> locations</h3>
+    <p>
+      We recommend you to take the first result
+    </p>
+  </div>
+  <table>
+  
+    <% @locations.each do |location| %>
+    <hr>
+    <tr>
+      <%= form_for location, url: show_direction_home_path(location.id), method: :post, class: "contactForm", 'data-no-turbolink' => true do |f|%>
+        <%= f.hidden_field :latitude, value: @user_location.first %>
+        <%= f.hidden_field :longitude, value: @user_location.last %>
+        <td><button type="submit"><%= location.workshop.name %></button></td>
+      <% end %>
+      
+      <%= content_tag(:td,"location#{location.workshop.id}", id: "location#{location.workshop.id}") %>
 
-    map.getRoutes({
-      origin: [<%= @user_location.first.to_f %>, <%= @user_location.last.lstrip.to_f %>],
-      destination: [<%= location.latitude %>, <%= location.longitude %>],
-      callback: function (e) 
-      {
-        var time = 0;
-        var distance = 0;
-        for (var i=0; i<e[0].legs.length; i++) 
+      <div id="map_canvas"></div>
+
+      <script type="text/javascript">
+      map = new GMaps({
+          el: '#map_canvas',
+          lat: <%= @user_location.first %>,
+          lng: <%= @user_location.last %>,
+          zoom: 18
+        });
+
+      map.getRoutes({
+        origin: [<%= @user_location.first.to_f %>, <%= @user_location.last.lstrip.to_f %>],
+        destination: [<%= location.latitude %>, <%= location.longitude %>],
+        callback: function (e) 
         {
-          time += e[0].legs[i].duration.value;
-          distance += e[0].legs[i].distance.value;
+          var time = 0;
+          var distance = 0;
+          for (var i=0; i<e[0].legs.length; i++) 
+          {
+            time += e[0].legs[i].duration.value;
+            distance += e[0].legs[i].distance.value;
+          }
+          $("td#location<%= location.workshop.id %>").text(distance*0.001 + ' KM');
         }
-        $("td#location<%= location.workshop.id %>").text(distance*0.001 + ' KM');
-      }
-      });
-    </script>
+        });
+      </script>
 
-  </tr>
-  <% end %>
-</table>
+    </tr>
+    <tr>
+      <td colspan="2"><%= location.workshop.address %></td>
+    </tr>
+    <hr/>
+    <% end %>
+  </table>
+<% end %>
