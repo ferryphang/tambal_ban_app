@@ -1,51 +1,90 @@
+  <p id="demo">Click the button to get your position:</p>
 
+<button onclick="getLocation()" id="locationtrigger" class="half">Get my location</button>
 <%= form_for @workshop do |f| %>
-  <%= f.text_field :name, placeholder: "Name" %>
-  <%= f.collection_select :category_id, Category.all, :id, :name %>
-  <%= f.text_field :address, id: "addresspicker_map" %>
+  <%= button_tag(type: 'submit', class: 'half', disabled: true) do %>
+    Submit
+  <% end %>
+  <table>
+    <tr><td><%= f.text_field :name, placeholder: "Name" %></td></tr>
+    <tr><td><%= f.text_field :address, placeholder: "Address" %></td></tr>
+    <tr><td align='left'><%= f.collection_select :category_id, Category.all, :id, :name %></td></tr>
+    <tr><td>
+      <%= f.label :About, align: 'left' %> 
+      <%= f.text_area :about %>
+    </td></tr>
+
+  </table>
+  <div class="contetn">
+    <div id="map_canvas" style="height:300px;width:300px;"></div>
+  </div>
+
+
+
   <%= hidden_field_tag :lat, :lat, id: "lat" %>
   <%= hidden_field_tag :lng, :lng, id: "lng" %>
-  
-  <div class='map-wrapper'>
-      <label id="geo_label" for="reverseGeocode">Reverse Geocode after Marker Drag?</label>
-      <select id="reverseGeocode">
-        <option value="false" selected>No</option>
-        <option value="true">Yes</option>
-      </select><br/>
 
-    <div id="map_x" style="width:400px; height:400px;"></div>
-      <div id="legend">You can drag and drop the marker to the correct location</div>
-    </div>
-  <%= f.text_area :about %>
-  <br>
-  <%= f.submit 'Send', class: 'btn btn-success' %>
+ 
+  
 <% end %>
 
-<script type="text/javascript">
-  $(function() {
-   
-    var addresspickerMap = $( "#addresspicker_map" ).addresspicker({
-      regionBias: "id",
-      updateCallback: showCallback,
-      elements: {
-        map:      "#map_x",
-        lat:      "#lat",
-        lng:      "#lng"
-      }
-    });
-
-    var gmarker = addresspickerMap.addresspicker( "marker");
-    gmarker.setVisible(true);
-    addresspickerMap.addresspicker( "updatePosition");
-
-    $('#reverseGeocode').change(function(){
-      $("#addresspicker_map").addresspicker("option", "reverseGeocode", ('true'));
-    });
-
-    function showCallback(geocodeResult, parsedGeocodeResult){
-      $('#callback_result').text(JSON.stringify(parsedGeocodeResult, null, 4));
+<script>
+var x=document.getElementById("demo");
+function getLocation()
+  {
+  $('#locationtrigger').html('Please wait...');
+   $('#locationtrigger').prop("disabled", true);
+  if (navigator.geolocation)
+    {
+    navigator.geolocation.getCurrentPosition(showPosition,showError);
     }
+  else{x.innerHTML="Geolocation is not supported by this browser.";}
+  }
 
-  });
+function showPosition(position)
+  {
+    var lat = position.coords.latitude;
+    var lng = position.coords.longitude;
+    
+    $('#lat').val(lat);
+    $('#lng').val(lng);
 
+     map = new GMaps({
+      el: '#map_canvas',
+      lat: lat,
+      lng: lng,
+      zoom: 17
+    });
+
+    map.addMarker({
+      lat: lat,
+      lng: lng,
+      title: 'User Location'
+    });
+  
+  $('button[type="submit"]').removeAttr('disabled');
+  $('#locationtrigger').html('Get my location').removeAttr('disabled');
+
+  }
+
+function showError(error)
+  {
+  switch(error.code) 
+    {
+    case error.PERMISSION_DENIED:
+      x.innerHTML="User denied the request for Geolocation."
+      break;
+    case error.POSITION_UNAVAILABLE:
+      x.innerHTML="Location information is unavailable."
+      break;
+    case error.TIMEOUT:
+      x.innerHTML="The request to get user location timed out."
+      break;
+    case error.UNKNOWN_ERROR:
+      x.innerHTML="An unknown error occurred."
+      break;
+    }
+  }
 </script>
+
+

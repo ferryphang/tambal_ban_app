@@ -1,7 +1,11 @@
-<%= form_for(@category, url: admin_categories_path, html: {multipart: true}) do |f| %>
+<%= form_for([:admin,@category], html: {multipart: true}) do |f| %>
   <div class="field">
     <%= f.label :name %>
     <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :marker %>
+    <%= f.file_field :marker %>
   </div>
   <div class="field">
     <%= f.submit %>

@@ -43,7 +43,7 @@
             </div>
             <h1>WOW</h1>
             <% if user_signed_in? %>
-              <%= link_to "Welcome, #{current_user.name}" ,"#!", id: "signin-button" %>
+              <%= link_to "Welcome" ,"#!", id: "signin-button" %>
             <% else %>
               <%= link_to "Sign In", new_user_session_path, id: "signin-button"  %>
             <% end %>

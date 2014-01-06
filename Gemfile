@@ -14,9 +14,9 @@ gem 'jquery-ui-rails'
 gem 'acts_as_commentable_with_threading', :github => 'elight/acts_as_commentable_with_threading', :branch => 'master'
 gem "geocoder"
 gem "gmapsjs"
-gem 'debugger', group: [:development, :test]
 
-gem 'quiet_assets', :group => :development
-
+gem "debugger", group: [:development, :test]
+gem "quiet_assets", :group => :development
 gem "carrierwave"
 gem "mini_magick"
+gem 'thumbs_up'

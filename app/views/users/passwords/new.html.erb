@@ -6,7 +6,12 @@
   <div><%= f.label :email %><br />
   <%= f.email_field :email, :autofocus => true %></div>
 
-  <div><%= f.submit "Send me reset password instructions" %></div>
+
+  <div>
+  <%= button_tag(type: 'submit') do %>
+    Send me reset password instructions
+  <% end %>
+  </div>
 <% end %>
 
 <%= render "users/shared/links" %>

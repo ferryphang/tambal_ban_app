@@ -8,13 +8,9 @@
 				<h4><%= @user.name %></h4>
 			</td>
 		</tr>
-		<tr>
-			<td>
-				<h5>Comment : <%#= @user.comment %></h5>
-			</td>
-		</tr>
+		
 	</tbody>
 </table>
 <%= button_tag(type: 'button', class: 'half') do %>
-	<%= link_to "Edit Profile" %>
+	<%= link_to "Edit Profile", edit_user_path(@user.id) %>
 <% end %>

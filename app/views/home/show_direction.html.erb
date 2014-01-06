@@ -8,26 +8,34 @@
   <legend class="title"><span>Map location</span></legend>
   <div id="map_canvas" style="height:350px;"></div>
   <div class="span6">
-    <ul>
+    <table>
       <% @workshop.comment_threads.each do |comment| %>
-      <li><%= comment.body %>asdas</li>
+      <tr> 
+      <td width="10%"><%= image_tag comment.user.avatar, size:"4x4" %></td>
+      <td align="left"><%= comment.body %></td>
+      </tr>
       <% end %>
-    </ul>
+    </table>
   </div>
   <% if user_signed_in? %>
+  <%= link_to('vote for this post!', vote_up_workshop_path(@workshop.id), :method => :post) %>
   <div class="span6">
-    <%= form_for @workshop, url: create_comment_workshop_path(@workshop), method: :post do |f| %>
-      <%= label_tag :body %>
-      <%= text_area_tag :body, placeholder: "Comment Here" %>
-      <%= submit_tag 'Send Comment' %>
+    <%= form_for @workshop, url: create_comment_workshop_path(@workshop.id), method: :post do |f| %>
+      <%= label_tag :Comment %>
+      <%= text_area_tag :body %>
+      <br/>
+      <%= button_tag(type: 'submit') do %>
+        Send Comment
+      <% end %>
     <% end %>
   </div>
   <% else %>
   <hr>
   <p>Login to give comment</p>
-  <%= link_to 'Sign In', new_user_session_path %> 
+    <%= button_tag do %>
+      <%= link_to 'Sign In', new_user_session_path %> 
+    <% end %>
   <% end %>
-
 <script type="text/javascript">
 var map;
 $(document).ready(function(){
@@ -47,15 +55,25 @@ $(document).ready(function(){
   map.addMarker({
     lat: coordinate.origin[0],
     lng: coordinate.origin[1],
-    title: 'User Location'
+    title: 'User Location',
+    icon: "/assets/male.png"
   });
 
   map.addMarker({
     lat: coordinate.destination[0],
     lng: coordinate.destination[1],
     title: '<%= @workshop.name %>',
-    icon: "/assets/compressor.png"
+    icon: "<%= @workshop.category.marker.thumb.url %>"
   });
+
+  <% @workshops.each do |workshop| %>
+    map.addMarker({
+      lat: <%= workshop.location.latitude %>,
+      lng: <%= workshop.location.longitude %>,
+      title: '<%= workshop.name %>',
+      icon: "<%= workshop.category.marker.thumb.url %>"
+    });
+  <% end %>
 
   map.travelRoute({
     origin: coordinate.origin,

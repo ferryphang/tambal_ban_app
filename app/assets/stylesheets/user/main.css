@@ -27,11 +27,7 @@ th {
 	padding: 8px;
 	width: 20%;
 }
-td {
-	padding: 4px 10px;
-	height: 40px;
-	width: 20%;
-}
+
 table .odd {
 	background-color: #FFF;
 }
@@ -51,9 +47,7 @@ table button:hover {
 	border-bottom: 0px solid rgba(0, 0, 0, 0.2);
 	box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.4);
 }
-table img {
-	max-width: 80px;
-}
+
 img {
 	position: relative;
 	display: block;

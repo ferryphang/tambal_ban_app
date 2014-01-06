@@ -1,6 +1,6 @@
 class Admin::CategoriesController < Admin::AdministratorsController
   before_action :authenticate_admin!
-
+  before_action :get_category, only: [:edit, :update, :destroy]
   def index
     @categories = Category.all
   end
@@ -22,13 +22,20 @@ class Admin::CategoriesController < Admin::AdministratorsController
   end
 
   def update
+    if @category.update(category_params)
+      redirect_to admin_categories_path
+    end
   end
 
   def destroy
   end
 
   private 
+
+    def get_category
+      @category = Category.find_by id: params[:id]
+    end
     def category_params
-      params.require(:category).permit(:name, :picture_marker)
+      params.require(:category).permit(:name, :marker)
     end
 end

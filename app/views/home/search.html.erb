@@ -13,13 +13,14 @@
   <table>
   
     <% @locations.each do |location| %>
-    <hr>
     <tr>
       <%= form_for location, url: show_direction_home_path(location.id), method: :post, class: "contactForm", 'data-no-turbolink' => true do |f|%>
         <%= f.hidden_field :latitude, value: @user_location.first %>
         <%= f.hidden_field :longitude, value: @user_location.last %>
         <td><button type="submit"><%= location.workshop.name %></button></td>
-      <% end %>
+        <td><%= pluralize(location.workshop.votes_for, 'person') %> like this place<%#= location.workshop.votes_against %></td>
+
+    <% end %>
       
       <%= content_tag(:td,"location#{location.workshop.id}", id: "location#{location.workshop.id}") %>
 
@@ -49,12 +50,8 @@
         }
         });
       </script>
-
     </tr>
-    <tr>
-      <td colspan="2"><%= location.workshop.address %></td>
-    </tr>
-    <hr/>
+  
     <% end %>
   </table>
 <% end %>

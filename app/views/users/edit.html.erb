@@ -1,0 +1,9 @@
+<fieldset>
+<%= form_for @user, html: {:multipart => true} do |f| %>
+  <%= f.text_field :name %>
+  <%= f.file_field :avatar %>
+  <%= button_tag(type: 'submit', class: 'half') do %>
+    Update Profile
+  <% end %>
+<% end %>
+</fieldset>

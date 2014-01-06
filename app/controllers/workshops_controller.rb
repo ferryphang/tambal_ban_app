@@ -1,5 +1,6 @@
 class WorkshopsController < ApplicationController
-  before_action :set_workshop, only: [:show, :edit, :update]
+  before_action :get_user_workshops, only: [:show, :edit, :update]
+  before_action :get_workshop, only: [:vote_up, :vote_down, :create_comment]
   before_action :authenticate_user!
   layout 'user'
 
@@ -31,23 +32,19 @@ class WorkshopsController < ApplicationController
   end
 
   def create_comment
-    get_workshop
     @comment = Comment.build_from(@workshop, current_user.id, params[:body] )
     if @comment.save
     redirect_to root_path, notice: "Your comment submitted"
     end
   end
-  
-  def create_rating
-    get_workshop
-    @rating = current_user.ratings.new workshop_id: @workshop.id, value: params[:value]
 
-    if @rating.save
-      redirect_to root_path, notice: "Your rating submitted to #{@workshop.name}"
-    else
-      redirect_to root_path, notice: "Your rating failed to submit"
-    end
-  end  
+  def vote_up
+    current_user.vote_for(@workshop)
+  end
+
+  def vote_down
+    current_user.vote_against(@workshop)
+  end
 
   def update
     respond_to do |format|
@@ -64,7 +61,8 @@ class WorkshopsController < ApplicationController
       @workshop = Workshop.find(params[:id])
     end
 
-    def set_workshop
+
+    def get_user_workshops
       @workshop = current_user.workshops.find(params[:id])
     end
 
