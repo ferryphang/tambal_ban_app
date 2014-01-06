@@ -1,0 +1,20 @@
+<h1>Admin::Badges#index</h1>
+<div class="container">
+  <h2><%= link_to 'New Badge', new_admin_badge_path %></h2>
+  <table class="table table-striped">
+  <% @badges.each do |badge| %>
+    <tr>
+      <td>
+        <p>Badge Name: <b><%= badge.name %></b></p>
+        <p>Badge Picture: <%= image_tag badge.picture.thumb.url %> </p>
+      </td>
+      <td>
+        <%= link_to 'Edit', edit_admin_badge_path(badge) %>
+        |
+        <%= link_to 'Delete', admin_badge_path(badge), method: 'delete', confirm: 'Are You Sure?' %>
+      </td>
+    </tr>
+  <% end %>
+  </table>
+</div>
+

@@ -1,0 +1,15 @@
+<%= form_for([:admin, @badge], html: {multipart: true}) do |f| %>
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :picture %>
+    <%= f.file_field :picture %>
+    <br><br>
+  </div>
+  <div class="field">
+    <%= f.submit %> | 
+    <%= link_to 'Cancel', admin_badges_path %>
+  </div>
+<% end %>
