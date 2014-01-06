@@ -2,7 +2,7 @@ class Admin::WorkshopsController < Admin::AdministratorsController
 	before_action :get_workshop, only: [:show, :destroy, :edit, :update]
 	
 	def index 
-		@workshops = Workshop.all
+		@workshops = Workshop.all.paginate(:page => params[:page], :per_page => 15)
 	end
 
 	def new 
@@ -46,6 +46,6 @@ class Admin::WorkshopsController < Admin::AdministratorsController
 		end
 
 		def get_workshop
-			@workshop = current_admin.workshops.find_by id: params[:id]
+			@workshop = Workshop.find_by id: params[:id]
 		end
 end

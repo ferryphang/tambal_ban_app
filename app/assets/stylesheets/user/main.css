@@ -27,26 +27,26 @@ th {
 	padding: 8px;
 	width: 20%;
 }
-/*
-table .odd {
-	background-color: #FFF;
-}
-table .even {
-	background-color: #F8F8F8;
-}
-table button {
-	height: 34px;
-	line-height: 26px;
-	width: 100%;
-	margin: 1px;
-}
-table button:hover {
-	margin-top: 2px;
-	height: 33px;
-	line-height: 26px;
-	border-bottom: 0px solid rgba(0, 0, 0, 0.2);
-	box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.4);
-}*/
+	/*
+	table .odd {
+		background-color: #FFF;
+	}
+	table .even {
+		background-color: #F8F8F8;
+	}
+	table button {
+		height: 34px;
+		line-height: 26px;
+		width: 100%;
+		margin: 1px;
+	}
+	table button:hover {
+		margin-top: 2px;
+		height: 33px;
+		line-height: 26px;
+		border-bottom: 0px solid rgba(0, 0, 0, 0.2);
+		box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.4);
+	}*/
 
 img {
 	position: relative;
@@ -111,6 +111,7 @@ button, .button {
 	-ms-user-select:none;
 	-webkit-tap-highlight-color:rgba(0,0,0,0);
 }
+/*
 button:hover, .button:hover {
 	margin-top: 5px;
 	line-height: 36px;
@@ -120,6 +121,7 @@ button:hover, .button:hover {
 button:disabled, .button:disabled {
 	background-color: #BBB;
 }
+*/
 hr {
 	height: 1px;
 	width: 98%;

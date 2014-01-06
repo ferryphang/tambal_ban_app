@@ -4,9 +4,10 @@
     <%= image_tag "user/map.svg", :width => "50%", margin: "70%" %>
 
 
-    <%= select_tag(:category, options_from_collection_for_select(Category.all, "id", "name"),class: "form-control col-lg-12 col-md-12 col-sm-4 col-xs-12") %>
     <h3 class="tile-title">Location Finder</h3>
     <p>Click the button to find nearest location</p>
+    <%= select_tag(:category, options_from_collection_for_select(Category.all, "id", "name"), align: "center") %>
+    <br/>
     <button class="btn btn-block btn-lg btn-danger" id="trigger" type="submit" disabled>Please wait...</button>
 
 

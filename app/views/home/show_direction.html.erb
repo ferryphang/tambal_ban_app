@@ -1,53 +1,37 @@
-<div class="containerr">
-  <div class="row">
-    <div class="col-xs-8">.col-md-8</div>
-    <div class="col-xs-4"> 
-      <h2><%= @workshop.name %></h2>
-    </div>
-  </div>
-</div>
-  <div id="instructions_container" class="well well-small">
-    <legend class="title"><span>Instructions</span></legend>
-    <ul id="instructions"></ul>
-  </div>
+<button id="show_instruction" class="half">Instructions</button>
+<button id="show_comments" class="half">Comments</button>
 
-  <legend class="title"><span>Map location</span></legend>
-  <div class="container well">
-    <div id="map_canvas" style="height:350px;"></div>  
-  </div>
-  <div class="span6">
-  <hr/>
-    <table>
-      <% @workshop.comment_threads.each do |comment| %>
+<div id="instructions_container" class="well">
+  <legend class="title"><span>Direction</span></legend>
+  <ul id="instructions"></ul>
+</div>
+<div class="span6" id="comments">
+  <table>
+    <% @workshop.comment_threads.each do |comment| %>
       <tr> 
       <td width="10%"><%= image_tag comment.user.avatar.thumb.url, size:"4x4" %></td>
       <td align="left"><%= comment.body %></td>
       </tr>
-      <% end %>
-    </table>
-  </div>
-  <% if user_signed_in? %>
-  <%= link_to('vote for this post!', vote_up_workshop_path(@workshop.id), :method => :post) %>
-  <div class="span6">
-    <%= form_for @workshop, url: create_comment_workshop_path(@workshop.id), method: :post do |f| %>
-      <%= label_tag :Comment %>
-      <%= text_area_tag :body %>
-      <br/>
-      <%= button_tag(type: 'submit') do %>
-        Send Comment
-      <% end %>
     <% end %>
-  </div>
-  <% else %>
-  <hr>
-  <p>Login to give comment</p>
-    <%= button_tag do %>
-      <%= link_to 'Sign In', new_user_session_path %> 
-    <% end %>
-  <% end %>
+  </table>
+</div>
+<hr/>
+
+<div id="map_canvas" style="height:550px;"></div>  
+
+
 <script type="text/javascript">
 var map;
 $(document).ready(function(){
+  $('#comments').hide();
+
+  $('#instructions_container').hide();
+  $('#show_instruction').click(function() {
+    $( "#instructions_container" ).toggle();
+  });
+  $('#show_comments').click(function() {
+    $( "#comments" ).toggle();
+  });
 
   var coordinate = {
     origin: [<%= @user_location.first %>,<%= @user_location.last %>],
@@ -60,7 +44,7 @@ $(document).ready(function(){
     lng: coordinate.origin[1],
     zoom: 17
   });
-
+  map.hideContextMenu();
   map.addMarker({
     lat: coordinate.origin[0],
     lng: coordinate.origin[1],
