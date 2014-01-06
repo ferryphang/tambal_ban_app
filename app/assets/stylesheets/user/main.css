@@ -13,7 +13,7 @@ body  {
 	height: 100%;
 	line-height: 150%;
 }
-table {
+/*table {
 	margin: 2%;
 	width: 96%;
 	border-radius: 2px;
@@ -21,13 +21,13 @@ table {
 	border-collapse: collapse;
 	text-align: center;
 	font-size: 14px;
-}
+}*/
 th {
 	font-weight: 500;
 	padding: 8px;
 	width: 20%;
 }
-
+/*
 table .odd {
 	background-color: #FFF;
 }
@@ -46,7 +46,7 @@ table button:hover {
 	line-height: 26px;
 	border-bottom: 0px solid rgba(0, 0, 0, 0.2);
 	box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.4);
-}
+}*/
 
 img {
 	position: relative;

@@ -10,7 +10,7 @@
       We recommend you to take the first result
     </p>
   </div>
-  <table>
+  <table class="table">
   
     <% @locations.each do |location| %>
     <tr>
@@ -22,7 +22,9 @@
 
     <% end %>
       
-      <%= content_tag(:td,"location#{location.workshop.id}", id: "location#{location.workshop.id}") %>
+      <%= content_tag :td do %>
+        <%= content_tag(:span,"location#{location.workshop.id}", id: "location#{location.workshop.id}", class: "label label-primary" ) %>
+      <% end %>
 
       <div id="map_canvas"></div>
 
@@ -46,7 +48,7 @@
             time += e[0].legs[i].duration.value;
             distance += e[0].legs[i].distance.value;
           }
-          $("td#location<%= location.workshop.id %>").text(distance*0.001 + ' KM');
+          $("span#location<%= location.workshop.id %>").text(distance*0.001 + ' KM');
         }
         });
       </script>
