@@ -12,8 +12,8 @@
   
   <%= f.label :address %>
   <%= f.text_field :address, id: "addresspicker_map" %>
-  <%= hidden_field_tag :lat, :lat, id: "lat" %>
-  <%= hidden_field_tag :lng, :lng, id: "lng" %>
+  <%= hidden_field_tag :lat, :lat, id: "lat", value: @workshop.location.latitude %>
+  <%= hidden_field_tag :lng, :lng, id: "lng", value: @workshop.location.longitude %>
   
   <div class='map-wrapper'>
       <label id="geo_label" for="reverseGeocode">Reverse Geocode after Marker Drag?</label>
@@ -22,7 +22,7 @@
         <option value="true">Yes</option>
       </select><br/>
 
-    <div id="map_x" style="width:400px; height:400px;"></div>
+    <div id="map_x" style="width:800px; height:400px;"></div>
       <div id="legend">You can drag and drop the marker to the correct location</div>
     </div>
   <%= f.label :about %>

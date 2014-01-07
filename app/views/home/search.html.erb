@@ -3,6 +3,7 @@
   <h3>Boom, there is no nearby location you are looking for</h3>
   <h3>Back to <b><%= link_to 'Home', root_path %></b></h3>
 <% else %>
+
   <div class="ico-box">
     <i class="ico redesign"></i>
     <h3 class="text-left">Result <%= @locations.size %> locations</h3>
@@ -10,50 +11,57 @@
       We recommend you to take the first result
     </p>
   </div>
-  <table class="table">
-  
+
+  <table class="table ">
     <% @locations.each do |location| %>
     <tr>
-      <%= form_for location, url: show_direction_home_path(location.id), method: :post, class: "contactForm", 'data-no-turbolink' => true do |f|%>
-        <%= f.hidden_field :latitude, value: @user_location.first %>
-        <%= f.hidden_field :longitude, value: @user_location.last %>
-        <td><button type="submit"><%= location.workshop.name %></button></td>
-        <td><%= pluralize(location.workshop.votes_for, 'person') %> like this place<%#= location.workshop.votes_against %></td>
-
-    <% end %>
+      <%= content_tag :td do %>
+        <%= link_to "<button>#{location.workshop.name}</button>".html_safe, show_direction_workshop_path(location.workshop.id) %>
+      <% end %>
       
       <%= content_tag :td do %>
+        <span class="label label-info">
+
+        <span class="glyphicon glyphicon-thumbs-up"></span>
+        <%= pluralize(location.workshop.votes_for, 'like') %>
+        </span>
+
+        <span class="label label-danger">
+        <span class="glyphicon glyphicon-thumbs-down"></span>
+        <%= pluralize(location.workshop.votes_against, 'unlike') %>
+        </span>
+        <br/>
         <%= content_tag(:span,"location#{location.workshop.id}", id: "location#{location.workshop.id}", class: "label label-primary" ) %>
       <% end %>
 
       <div id="map_canvas"></div>
 
       <script type="text/javascript">
-      map = new GMaps({
-          el: '#map_canvas',
-          lat: <%= @user_location.first %>,
-          lng: <%= @user_location.last %>,
-          zoom: 18
-        });
+        map = new GMaps({
+            el: '#map_canvas',
+            lat: <%= @user_location.first %>,
+            lng: <%= @user_location.last %>,
+            zoom: 18
+          });
 
-      map.getRoutes({
-        origin: [<%= @user_location.first.to_f %>, <%= @user_location.last.lstrip.to_f %>],
-        destination: [<%= location.latitude %>, <%= location.longitude %>],
-        callback: function (e) 
-        {
-          var time = 0;
-          var distance = 0;
-          for (var i=0; i<e[0].legs.length; i++) 
+        map.getRoutes({
+          origin: [<%= @user_location.first.to_f %>, <%= @user_location.last.lstrip.to_f %>],
+          destination: [<%= location.latitude %>, <%= location.longitude %>],
+          callback: function (e) 
           {
-            time += e[0].legs[i].duration.value;
-            distance += e[0].legs[i].distance.value;
+            var time = 0;
+            var distance = 0;
+            for (var i=0; i<e[0].legs.length; i++) 
+            {
+              time += e[0].legs[i].duration.value;
+              distance += e[0].legs[i].distance.value;
+            }
+            $("span#location<%= location.workshop.id %>").text(distance*0.001 + ' KM');
           }
-          $("span#location<%= location.workshop.id %>").text(distance*0.001 + ' KM');
-        }
-        });
+          });
       </script>
     </tr>
-  
     <% end %>
   </table>
+
 <% end %>

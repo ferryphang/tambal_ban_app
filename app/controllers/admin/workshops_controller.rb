@@ -2,7 +2,7 @@ class Admin::WorkshopsController < Admin::AdministratorsController
 	before_action :get_workshop, only: [:show, :destroy, :edit, :update]
 	
 	def index 
-		@workshops = Workshop.all.paginate(:page => params[:page], :per_page => 15)
+		@workshops = Workshop.all.page(params[:page]).per(15)
 	end
 
 	def new 

@@ -1,0 +1,178 @@
+<p><%= @workshop.name %></p>
+<p><%= @workshop.address %></p>
+<p><%= raw @workshop.about %></p>
+<p><%= @workshop.updated_at %></p>
+<p>Created by:<%= @workshop.creator.name %></p>
+<%= button_to vote_up_workshop_path(@workshop.id), class: "btn btn-info half", method: :post do %>
+      <span class='glyphicon glyphicon-thumbs-up'></span> Like
+    <% end %>
+    <%= button_to vote_down_workshop_path(@workshop.id), class: "btn btn-danger half", method: :post do %>
+      <span class='glyphicon glyphicon-thumbs-down'></span> Unlike
+    <% end %>
+<button id="show_instruction">Direction</button>
+  
+  <!-- Instruction -->
+  <div id="instructions_container" class="well">
+    <fieldset>
+    <legend class="title"><span>Routes</span></legend>
+    <ul id="instructions"></ul>
+    </fieldset>
+  </div>
+
+  
+
+  <!-- MAP -->
+  <hr>
+  <div id="map_canvas" style="height:550px;">
+    <h2>Please Wait..</h2>
+    <p>We are still calculating your area</p>
+  </div>  
+
+  <!-- List Comments -->
+  <button id="show_comments"> Show Comments</button>
+
+  <% if !@workshop.comment_threads.blank? %>
+  <div id="comments">
+    <fieldset>
+    <legend class="title"><span>User Comments</span></legend>
+    <table>
+      <% @comments.each do |comment| %>
+        <tr> 
+        <td width="10%"><%= image_tag comment.user.avatar.thumb.url, size:"4x4" %></td>
+        <td align="left"><%= comment.body %></td>
+        </tr>
+      <% end %>
+    </table>
+    <%= paginate @comments %>
+
+    </fieldset>
+  <% else %>
+    <script type="text/javascript">
+    $(document).ready(function(){
+      $('#show_comments').attr('disabled','disabled');
+      $('#show_comments').html('No Comments');
+    });
+    </script>
+  <% end %>
+  </div>
+
+
+  <!-- Comment Form -->
+  <fieldset class="text-center">
+  <% if user_signed_in? %>
+    <legend align="center">Form Comment</legend>  
+    <%= form_for @workshop, url: create_comment_workshop_path(@workshop), method: :post do |f| %>
+      <%= text_area_tag :body %>
+      <%= button_tag type: "submit" do %>
+        Send Comment
+      <% end %>
+    <% end %>
+  <% else %>
+    <legend align="center">Login to give comment</legend>
+    <%= link_to "<button>Sign In</button>".html_safe, new_user_session_path %>
+  <% end %>
+  </fieldset>
+
+<script type="text/javascript">
+var map;
+$(document).ready(function(){
+  var user_location = [];
+
+  if (navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(function(position){
+      user_location[0] = position.coords.latitude;
+      user_location[1] = position.coords.longitude;
+
+      var coordinate = {
+        origin: [user_location[0],user_location[1]],
+        destination: [<%= @workshop.location.latitude%>, <%= @workshop.location.longitude %>]
+      }
+
+      map = new GMaps({
+        el: '#map_canvas',
+        lat: coordinate.origin[0],
+        lng: coordinate.origin[1],
+        zoom: 17
+      });
+      map.addMarker({
+        lat: coordinate.origin[0],
+        lng: coordinate.origin[1],
+        title: 'User Location',
+        icon: "/assets/male.png"
+      });
+
+      map.addMarker({
+        lat: coordinate.destination[0],
+        lng: coordinate.destination[1],
+        title: '<%= @workshop.name %>',
+        icon: "<%= @workshop.category.marker.thumb.url %>",
+        infoWindow: {
+          content: '<%= @workshop.name %>'
+        }
+      });
+
+      <% @workshops.each do |workshop| %>
+        map.addMarker({
+          lat: <%= workshop.location.latitude %>,
+          lng: <%= workshop.location.longitude %>,
+          title: '<%= workshop.name %>',
+          icon: "<%= workshop.category.marker.thumb.url %>",
+          infoWindow: {
+            content: '<%= link_to workshop.name, show_direction_workshop_path(workshop.id) %><br/>'
+          }
+        });
+      <% end %>
+
+      map.travelRoute({
+        origin: coordinate.origin,
+        destination: coordinate.destination,
+        travelMode: 'walking',
+        step: function(e) {
+          $('#instructions').append('<li>'+e.instructions+'</li>');
+          $('#instructions li:eq(' + e.step_number + ')').delay(420 * e.step_number).fadeIn("medium", function() {
+            map.drawPolyline({
+              path: e.path,
+              strokeColor: '#FF4136',
+              strokeOpacity: 0.3,
+              strokeWeight: 6
+            });  
+          });
+        }
+      });
+
+      map.getRoutes({
+          origin: coordinate.origin,
+          destination: coordinate.destination,  
+          avoidHighways: false,
+          avoidTolls: false,
+          travelMode: 'DRIVING',
+          unitSystem: "IMPERIAL",
+          callback: function (e) {
+              var time = 0;
+              var distance = 0;
+              for (var i=0; i<e[0].legs.length; i++) {
+                  time += e[0].legs[i].duration.value;
+                  distance += e[0].legs[i].distance.value;
+              }
+              $('h3#Distance').text(distance*0.001 + ' KM from your position');
+          }
+      });
+    });
+  }else{
+    alert("Geolocation is not supported by this browser.");
+  }
+
+  $('#comments').hide();
+  $('#instructions_container').hide();
+  
+  $('#show_instruction').click(function() {
+    $( "#instructions_container" ).fadeToggle("slow");
+  });
+  $('#show_comments').click(function() {
+    $("#comments").fadeToggle("slow");
+  });
+
+});
+
+
+</script>

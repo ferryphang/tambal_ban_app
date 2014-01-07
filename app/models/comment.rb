@@ -1,6 +1,6 @@
 class Comment < ActiveRecord::Base
   acts_as_nested_set :scope => [:commentable_id, :commentable_type]
-
+  paginates_per 50
   validates :body, :presence => true
   validates :user, :presence => true
 

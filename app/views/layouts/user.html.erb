@@ -10,6 +10,7 @@
    <%= javascript_include_tag "user/application" %>
   
 </head>
+
 <body>
   <div id="st-container" class="st-container">
     <nav class="st-menu st-effect-4">
@@ -50,6 +51,7 @@
           </header>
                   
           <div class="content">
+            <%= render partial: "shared/user_notification" %>
             <%= yield %>            
           </div>
 
@@ -60,7 +62,6 @@
 
         
     <%= javascript_include_tag "user/lib/sidebarEffects.js" %>
-    <%= javascript_include_tag "user/swipers.js" %>
 
 
 </body>

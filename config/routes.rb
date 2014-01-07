@@ -5,9 +5,6 @@ LastProject::Application.routes.draw do
     collection do
       post 'search'
     end
-    member do 
-      post 'show_direction'
-    end
   end
   
   # ADMIN
@@ -26,6 +23,11 @@ LastProject::Application.routes.draw do
     member do
       post 'create_comment'
       post 'vote_up'
+      post 'vote_down'
+      get 'show_direction'
+    end
+    collection do 
+      get 'all'
     end
   end
     

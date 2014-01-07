@@ -1,11 +1,15 @@
 class WorkshopsController < ApplicationController
   before_action :get_user_workshops, only: [:show, :edit, :update]
-  before_action :get_workshop, only: [:vote_up, :vote_down, :create_comment]
-  before_action :authenticate_user!
+  before_action :get_workshop, only: [:vote_up, :vote_down, :create_comment, :show_direction]
+  before_action :authenticate_user!, except: [:show_direction, :show, :all]
   layout 'user'
 
   def index
     @workshops = current_user.workshops
+  end
+
+  def all
+    @workshops = Workshop.all.page(params[:page]).per(15)
   end
  
   def show
@@ -24,9 +28,9 @@ class WorkshopsController < ApplicationController
 
     respond_to do |format|
       if @workshop.save
-        format.html { redirect_to @workshop, notice: 'Workshop was successfully created.' }
-      else
-        format.html { render action: 'new' }
+        redirect_to @workshop, :flash => { success: 'Workshop was successfully created.' }
+      # else
+      #   format.html { render action: 'new' }
       end
     end
   end
@@ -34,22 +38,37 @@ class WorkshopsController < ApplicationController
   def create_comment
     @comment = Comment.build_from(@workshop, current_user.id, params[:body] )
     if @comment.save
-    redirect_to root_path, notice: "Your comment submitted"
+      redirect_to show_direction_workshop_path(@workshop.id), :flash => { success: "Your comment submitted" }
     end
   end
 
   def vote_up
-    current_user.vote_for(@workshop)
+    if current_user.vote_for(@workshop)
+      redirect_to show_direction_workshop_path(@workshop.id), :flash => { success: "You liked this #{@workshop.name}" }
+    end
+
+  rescue
+    redirect_to show_direction_workshop_path(@workshop.id), :flash => { error: "You have voted this #{@workshop.name}" }
   end
 
   def vote_down
-    current_user.vote_against(@workshop)
+    if current_user.vote_against(@workshop)
+      redirect_to show_direction_workshop_path(@workshop.id), :flash => { success: "You unliked this #{@workshop.name}" }
+    end
+
+    rescue
+      redirect_to show_direction_workshop_path(@workshop.id), :flash => { error: "You have voted this #{@workshop.name}" }
+  end
+
+  def show_direction
+    @workshops = Workshop.all
+    @comments = @workshop.comment_threads.page(params[:page]).per(15)
   end
 
   def update
     respond_to do |format|
       if @workshop.update(workshop_params)
-        format.html { redirect_to @workshop, notice: 'Workshop was successfully updated.' }
+        format.html { redirect_to @workshop, success: 'Workshop was successfully updated.' }
       else
         format.html { render action: 'edit' }      
       end
@@ -58,7 +77,7 @@ class WorkshopsController < ApplicationController
 
   private
     def get_workshop
-      @workshop = Workshop.find(params[:id])
+      @workshop = Workshop.find_by id: params[:id]
     end
 
 

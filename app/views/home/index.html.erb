@@ -1,4 +1,5 @@
 <h1></h1>
+<fieldset>
 <%= form_tag search_home_index_path, :id => 'form_user' do %>
   <%= hidden_field_tag :user_location %>
     <%= image_tag "user/map.svg", :width => "50%", margin: "70%" %>
@@ -6,13 +7,12 @@
 
     <h3 class="tile-title">Location Finder</h3>
     <p>Click the button to find nearest location</p>
-    <%= select_tag(:category, options_from_collection_for_select(Category.all, "id", "name"), align: "center") %>
+    <br/>
+    <%= select_tag(:category, options_from_collection_for_select(Category.all, "id", "name")) %>
     <br/>
     <button class="btn btn-block btn-lg btn-danger" id="trigger" type="submit" disabled>Please wait...</button>
-
-
 <% end %>
-
+</fieldset>
 <script type="text/javascript">
   function getLocation(){
     if (navigator.geolocation){

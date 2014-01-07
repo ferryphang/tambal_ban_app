@@ -13,6 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require ckeditor-jquery
-//= require jquery.ui.all
+//= require jquery.ui.autocomplete
 //= require gmapsjs
-//= require_tree .
+//= require ./lib/classie
+//= require ./lib/klass.min
+//= require ./lib/sidebarEffects

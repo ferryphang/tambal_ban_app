@@ -2,9 +2,9 @@
 @import url(http://fonts.googleapis.com/css?family=Raleway:300,100);
 
 /* Miscellaneous Tags */
-* {
+/** {
 	font-family: 'Raleway', sans-serif !important;
-}
+}*/
 body  {
 	font-weight: 200;
 	background-color: #FFF;
@@ -22,11 +22,11 @@ body  {
 	text-align: center;
 	font-size: 14px;
 }*/
-th {
+/*th {
 	font-weight: 500;
 	padding: 8px;
 	width: 20%;
-}
+}*/
 	/*
 	table .odd {
 		background-color: #FFF;
@@ -111,17 +111,17 @@ button, .button {
 	-ms-user-select:none;
 	-webkit-tap-highlight-color:rgba(0,0,0,0);
 }
-/*
-button:hover, .button:hover {
+
+/*button:hover, .button:hover {
 	margin-top: 5px;
 	line-height: 36px;
 	height: 43px;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-}
+}*/
 button:disabled, .button:disabled {
 	background-color: #BBB;
 }
-*/
+
 hr {
 	height: 1px;
 	width: 98%;

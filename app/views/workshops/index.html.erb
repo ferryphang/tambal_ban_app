@@ -5,9 +5,7 @@
     <thead>
       <tr>
         <th>Name</th>
-        <th>Address</th>
         <th>Category</th>
-        <th>Latitude | Longitude</th>
         <th>Status</th>
         <th colspan="3"></th>
       </tr>
@@ -17,9 +15,7 @@
       <% @workshops.includes(:location,:category).each do |workshop| %>
         <tr>
           <td><%= workshop.name %></td>
-          <td><%= workshop.address %></td>
           <td><%= workshop.category.name %></td>
-          <td><%= "#{workshop.location.latitude}, #{workshop.location.longitude}" %></td>
           <td><%= workshop.status %></td>
           <td><%= link_to 'Show', workshop, 'data-no-turbolink' => true %></td>
           <td><%= link_to 'Edit', edit_workshop_path(workshop), 'data-no-turbolink' => true %></td>

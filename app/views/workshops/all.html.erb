@@ -1,0 +1,8 @@
+<table>
+  <% @workshops.each do |workshop| %>
+  <tr>
+    <td><%= workshop.name %></td>
+  </tr>
+  <% end %>
+</table>
+<%= paginate @workshops %>
