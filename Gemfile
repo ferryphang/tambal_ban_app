@@ -15,17 +15,15 @@ gem 'acts_as_commentable_with_threading', :github => 'elight/acts_as_commentable
 gem "geocoder"
 gem "gmapsjs"
 gem "kaminari"
-gem "debugger", group: [:development, :test]
 gem "carrierwave"
 gem "mini_magick"
 gem 'thumbs_up'
 
-group :development do
-  gem 'sqlite3'
-  gem "quiet_assets"
-end
+gem "quiet_assets", group: :development
+gem 'sqlite3', group: [:development, :test]
+gem "debugger", group: [:development, :test]
 
 group :production do 
-  gem 'pg'
+  # gem 'pg'
   gem 'rails_12factor'
 end
