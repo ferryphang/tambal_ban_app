@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 gem 'rails', '4.0.2'
-gem 'sqlite3'
+
 gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
@@ -16,7 +16,16 @@ gem "geocoder"
 gem "gmapsjs"
 gem "kaminari"
 gem "debugger", group: [:development, :test]
-gem "quiet_assets", :group => :development
 gem "carrierwave"
 gem "mini_magick"
 gem 'thumbs_up'
+
+group :production do 
+  gem 'pg'
+  gem 'rails_12factor'
+end
+
+group :development do
+  gem 'sqlite3'
+  gem "quiet_assets"
+end
