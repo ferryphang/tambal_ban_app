@@ -20,12 +20,12 @@ gem "carrierwave"
 gem "mini_magick"
 gem 'thumbs_up'
 
-group :production do 
-  gem 'pg'
-  gem 'rails_12factor'
-end
-
 group :development do
   gem 'sqlite3'
   gem "quiet_assets"
+end
+
+group :production do 
+  gem 'pg'
+  gem 'rails_12factor'
 end
