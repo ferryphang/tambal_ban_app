@@ -1,20 +1,28 @@
-<h1>Admin::Badges#index</h1>
-<div class="container">
-  <h2><%= link_to 'New Badge', new_admin_badge_path %></h2>
-  <table class="table table-striped">
+<%= link_to 'New Badge', new_admin_badge_path, class: "btn btn-primary", 'data-no-turbolink' => true %>
+<hr>
+<table class="table table-bordered">
+  <thead>
+    <th>Name</th>
+    <th>Badge</th>
+    <th colspan="2">&nbsp;</th>    
+  </thead>
+  <tbody>
   <% @badges.each do |badge| %>
     <tr>
       <td>
-        <p>Badge Name: <b><%= badge.name %></b></p>
-        <p>Badge Picture: <%= image_tag badge.picture.thumb.url %> </p>
+        <b><%= badge.name %></b>
+      </td>
+      <td>
+        <%= image_tag badge.picture.thumb.url %>
       </td>
       <td>
         <%= link_to 'Edit', edit_admin_badge_path(badge) %>
-        |
+      </td>
+      <td>
         <%= link_to 'Delete', admin_badge_path(badge), method: 'delete', confirm: 'Are You Sure?' %>
       </td>
     </tr>
   <% end %>
-  </table>
-</div>
-
+  </tbody>
+</table>
+<%= paginate @badges %>

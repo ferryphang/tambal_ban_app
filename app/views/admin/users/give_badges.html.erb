@@ -1,0 +1,35 @@
+<h1>Give Badge</h1>
+<hr>
+<table class="table table-bordered">
+  <thead>
+    <th>Name</th>
+    <th>Badges</th>
+    <th colspan="2">&nbsp;</th>    
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <b><%= @user.name %></b>
+      </td>
+      <td>
+        <%#= form_for(:userbadges, url: save_badges_admin_user_path) do |f| %>
+
+          <% @badges.each do |badge| %>
+            <%= form_for(:userbadges, url: save_badges_admin_user_path, html: {id: "form_#{badge.id}"}) do |f| %>
+              <%= link_to "#{image_tag(badge.picture.thumb.url)}".html_safe, "#", class: "badge_id_#{badge.id}" %> 
+              <%= f.hidden_field :badge_id, value: "#{badge.id}" %>
+              <script>
+                $( ".badge_id_<%= badge.id %>" ).click(function() {
+                  $( "#form_<%= badge.id %>" ).submit();
+                });
+              </script>
+            <% end %>
+          <% end %>
+
+          <%#= f.select(:badge, @badges.collect{|badge| [badge.name] }, { multiple: true, size: 5}) %>
+        <%# end %>
+
+      </td>
+    </tr>
+  </tbody>
+</table>

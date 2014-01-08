@@ -3,7 +3,7 @@ class Admin::BadgesController < Admin::AdministratorsController
   before_action :authenticate_admin!
 
   def index
-    @badges = Badge.all
+    @badges = Badge.all.page(params[:page]).per(5)
   end
 
   def new
