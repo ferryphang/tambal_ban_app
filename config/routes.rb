@@ -13,6 +13,12 @@ LastProject::Application.routes.draw do
     resources 'categories'
     resources 'workshops'
     resources 'badges'
+    resources 'users' do 
+      member do     
+         get 'give_badges'
+         post 'save_badges'
+      end
+    end
   end
 
   # MEMBER

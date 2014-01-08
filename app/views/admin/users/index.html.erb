@@ -1,0 +1,27 @@
+<hr>
+<table class="table table-bordered">
+  <thead>
+    <th>Name</th>
+    <th>His/Her Badges</th>
+    <th colspan="2">&nbsp;</th>    
+  </thead>
+  <tbody>
+  <% @users.each do |user| %>
+    <tr>
+      <td>
+        <b><%= user.name %></b>
+      </td>
+      <td>
+        Badge Picture
+      </td>
+      <td>
+        <%= link_to 'Give Badge', give_badges_admin_user_path(user) %>
+      </td>
+      <td>
+        <%= link_to 'Take Badge', save_badges_admin_user_path(user), method: 'delete', confirm: 'Are You Sure?' %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<%= paginate @users %>
