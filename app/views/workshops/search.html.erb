@@ -1,0 +1,28 @@
+
+
+<fieldset class="text-center">
+<legend align="center">Top 3 Contributor</legend>
+<table class="table ">
+    <% @workshops.each do |workshop| %>
+    <tr>
+      <%= content_tag :td do %>
+        <%= link_to "<button>#{workshop.name}</button>".html_safe, show_direction_workshop_path(workshop.id) %>
+      <% end %>
+      
+      <%= content_tag :td do %>
+        <span class="label label-info">
+
+        <span class="glyphicon glyphicon-thumbs-up"></span>
+        <%= pluralize(workshop.votes_for, 'like') %>
+        </span> <br>
+
+        <span class="label label-danger">
+        <span class="glyphicon glyphicon-thumbs-down"></span>
+        <%= pluralize(workshop.votes_against, 'unlike') %>
+        </span>
+        <br/>
+      <% end %>
+    </tr>
+    <% end %>
+  </table>
+</fieldset>

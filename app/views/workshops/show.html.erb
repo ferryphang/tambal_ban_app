@@ -6,16 +6,27 @@
    height: 400px;
 }
 </style>
-	
-		<div class="span4">
-			<h3>Name : <%= @workshop.name %></h3>
-			<p>Address : <%= @workshop.address %></p>
-			<p>About : <% @workshop.about %></p>
-		</div>
 
-		<div id="map_canvas" class="span4">
-		</div>
-		
+<% if can? :update, @workshop %>
+  <%= link_to 'Edit', edit_workshop_path(@workshop) %> |
+  <%= link_to 'Back', workshops_path %>
+<% end %>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title"><%= @workshop.name %></h3>
+  </div>
+  <div class="panel-body">
+    <address>Address : <%= @workshop.address %></address>
+    <br>
+    <div class="well">
+      <strong>Additional info:</strong>
+      <%= raw @workshop.about %>
+    </div>
+      <div id="map_canvas" class="span4">
+  </div>
+</div>
+
 <script type="text/javascript">
 $( document ).ready(function() {
   
@@ -30,10 +41,9 @@ $( document ).ready(function() {
     lat: <%= @workshop.location.latitude %>,
     lng: <%= @workshop.location.longitude %>,
     title: '<%= @workshop.name %>',
+    icon: "<%= @workshop.category.marker.thumb.url %>"
   });
 
 });
 
 </script>
-<%= link_to 'Edit', edit_workshop_path(@workshop) %> |
-<%= link_to 'Back', workshops_path %>

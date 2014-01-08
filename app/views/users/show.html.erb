@@ -1,16 +1,62 @@
-<table>
-	<tbody>
-		<tr class="odd">
-			<td>
-				<%= image_tag @user.avatar_url(:thumb) if @user.avatar? %>
-			</td>
-			<td>
-				<h4><%= @user.name %></h4>
-			</td>
-		</tr>
-		
-	</tbody>
-</table>
-<%= button_tag(type: 'button', class: 'half') do %>
-	<%= link_to "Edit Profile", edit_user_path(@user.id) %>
+
+<div class="panel panel-default">
+  <div class="panel-heading"><strong><%= @user.name %></strong></div>
+  <div class="panel-body">
+    <table class="table">
+  		<tr>
+  			<td>
+  				<%= image_tag @user.avatar_url(:thumb),class: "thumbnail" if @user.avatar? %>
+  			</td>
+  			<td>
+  				<p>
+  					Member since: <strong><%= @user.created_at.strftime("%d-%b-%Y") %></strong>
+            </br>
+            Last active : <strong><%= distance_of_time_in_words(Time.now - @user.last_sign_in_at.to_time) %> ago</strong>
+  				</p>
+  			</td>
+  		</tr>
+  		<tr>
+  			<td colspan="2">
+					<%= button_to "#", class: "btn btn-info half", method: :post do %>
+					  <span class='glyphicon glyphicon glyphicon-map-marker'></span> Contribute
+					<% end %>
+
+					<%= button_to "#", class: "btn btn-success half disabled", method: :post do %>
+					  <span class='glyphicon glyphicon glyphicon-heart'></span> Badge
+					<% end %>
+  			</td>
+  		</tr>
+      <tr>
+        <td>
+          <% @user_badges.each do |badge| %>
+            <%= image_tag badge.badge.picture.thumb.url, width: "30%" %> 
+          <% end %>
+        </td>
+      </tr>
+    </table>
+
+	</div>
+</div>
+
+<ul class="list-group">
+	<% if !@user_workshops.blank? %>
+		<% @user_workshops.each do |workshop| %>
+	  <li class="list-group-item">
+	  	<span class="badge glyphicon glyphicon glyphicon-thumbs-down warning"> <%=workshop.votes_against %></span>
+	    <span class="badge glyphicon glyphicon glyphicon-thumbs-up success"> <%=workshop.votes_for %></span>
+	    <%= link_to workshop.name, show_direction_workshop_path(workshop) %>
+	  </li>
+	  <% end %>
+  <% else %>
+  	<li class="list-group-item">
+	    This user haven't contributed to any workshops
+	  </li>
+	<% end %>
+</ul>
+<%= paginate @user_workshops %> 
+
+<% if can? :update, @user %>
+	<%= button_tag(type: 'button', class: 'btn btn-warning') do %>
+		<%= link_to "Edit Profile", edit_user_path(@user.id) %>
+	<% end %>  
 <% end %>

@@ -1,8 +1,10 @@
+<fieldset>
 <p><%= @workshop.name %></p>
 <p><%= @workshop.address %></p>
 <p><%= raw @workshop.about %></p>
 <p><%= @workshop.updated_at %></p>
 <p>Created by:<%= @workshop.creator.name %></p>
+<h3 id="distance"></h3>
 <%= button_to vote_up_workshop_path(@workshop.id), class: "btn btn-info half", method: :post do %>
       <span class='glyphicon glyphicon-thumbs-up'></span> Like
     <% end %>
@@ -10,35 +12,32 @@
       <span class='glyphicon glyphicon-thumbs-down'></span> Unlike
     <% end %>
 <button id="show_instruction">Direction</button>
-  
+</fieldset>
   <!-- Instruction -->
-  <div id="instructions_container" class="well">
+  <div id="instructions_container">
     <fieldset>
     <legend class="title"><span>Routes</span></legend>
     <ul id="instructions"></ul>
     </fieldset>
   </div>
 
-  
-
-  <!-- MAP -->
-  <hr>
-  <div id="map_canvas" style="height:550px;">
-    <h2>Please Wait..</h2>
-    <p>We are still calculating your area</p>
+  <div id="map_canvas" style="height:500px;" class="well">
+    <h3 class="btn btn-warning" align="center">Please Wait..</h3>
   </div>  
 
   <!-- List Comments -->
   <button id="show_comments"> Show Comments</button>
 
   <% if !@workshop.comment_threads.blank? %>
-  <div id="comments">
+  <div id="comments"> 
+      <hr>
+
     <fieldset>
-    <legend class="title"><span>User Comments</span></legend>
+ 
     <table>
       <% @comments.each do |comment| %>
         <tr> 
-        <td width="10%"><%= image_tag comment.user.avatar.thumb.url, size:"4x4" %></td>
+        <td><%= link_to image_tag(comment.user.avatar.thumb.url), user_path(comment.user.id) %></td>
         <td align="left"><%= comment.body %></td>
         </tr>
       <% end %>
@@ -58,6 +57,7 @@
 
 
   <!-- Comment Form -->
+
   <fieldset class="text-center">
   <% if user_signed_in? %>
     <legend align="center">Form Comment</legend>  
@@ -126,10 +126,10 @@ $(document).ready(function(){
       map.travelRoute({
         origin: coordinate.origin,
         destination: coordinate.destination,
-        travelMode: 'walking',
+        travelMode: 'driving',
         step: function(e) {
           $('#instructions').append('<li>'+e.instructions+'</li>');
-          $('#instructions li:eq(' + e.step_number + ')').delay(420 * e.step_number).fadeIn("medium", function() {
+          $('#instructions li:eq(' + e.step_number + ')').delay(500 * e.step_number).fadeIn(200, function() {
             map.drawPolyline({
               path: e.path,
               strokeColor: '#FF4136',
@@ -145,7 +145,7 @@ $(document).ready(function(){
           destination: coordinate.destination,  
           avoidHighways: false,
           avoidTolls: false,
-          travelMode: 'DRIVING',
+          travelMode: 'driving',
           unitSystem: "IMPERIAL",
           callback: function (e) {
               var time = 0;
@@ -154,7 +154,7 @@ $(document).ready(function(){
                   time += e[0].legs[i].duration.value;
                   distance += e[0].legs[i].distance.value;
               }
-              $('h3#Distance').text(distance*0.001 + ' KM from your position');
+              $('h3#distance').text(distance*0.001 + ' KM from your position');
           }
       });
     });

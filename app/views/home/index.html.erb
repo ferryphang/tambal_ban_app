@@ -1,5 +1,11 @@
-<h1></h1>
-<fieldset>
+<fieldset class="text-center">
+<legend align="center">Top 3 Contributor</legend>
+<table class="table">
+<% @users.each do |user| %>
+<td><%= link_to image_tag(user.last.avatar_url(:thumb),class: "thumbnail"), user_path(user.last.id) %></td>
+<% end %>
+ </tr>
+</table> 
 <%= form_tag search_home_index_path, :id => 'form_user' do %>
   <%= hidden_field_tag :user_location %>
     <%= image_tag "user/map.svg", :width => "50%", margin: "70%" %>

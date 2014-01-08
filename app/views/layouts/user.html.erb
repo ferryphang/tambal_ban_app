@@ -32,6 +32,11 @@
           <li><%= link_to "Profile", user_path(current_user.id), class: "ico aboutus" %></li>
           <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete  %></li>
         <% end %>
+          <li>
+            <%= form_tag search_workshops_path, method: :post do %>
+              <%= text_field_tag :search, nil, class: "ico search", id: "searchinput", placeholder: "SEARCH" %>
+            <% end %>
+          </li>
         </li>
       </ul>
     </nav>

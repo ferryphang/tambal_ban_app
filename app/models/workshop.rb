@@ -10,4 +10,7 @@ class Workshop < ActiveRecord::Base
 	validates :address, presence: true	
 	validates :about, presence:true
 
+  def self.full_search(string)
+    Workshop.where("name LIKE '%#{string}%' OR address LIKE '%#{string}%' OR about LIKE '%#{string}%'")
+  end
 end

@@ -23,15 +23,15 @@
         <span class="label label-info">
 
         <span class="glyphicon glyphicon-thumbs-up"></span>
-        <%= pluralize(location.workshop.votes_for, 'like') %>
+        <%= pluralize(location.workshop.votes_for, 'Like') %>
         </span>
-
+        &nbsp;
         <span class="label label-danger">
         <span class="glyphicon glyphicon-thumbs-down"></span>
-        <%= pluralize(location.workshop.votes_against, 'unlike') %>
+        <%= pluralize(location.workshop.votes_against, 'Unlike') %>
         </span>
         <br/>
-        <%= content_tag(:span,"location#{location.workshop.id}", id: "location#{location.workshop.id}", class: "label label-primary" ) %>
+        <%= content_tag(:span,"Calculating ...", id: "location#{location.workshop.id}", class: "label label-primary" ) %>
       <% end %>
 
       <div id="map_canvas"></div>
@@ -56,7 +56,7 @@
               time += e[0].legs[i].duration.value;
               distance += e[0].legs[i].distance.value;
             }
-            $("span#location<%= location.workshop.id %>").text(distance*0.001 + ' KM');
+            $("span#location<%= location.workshop.id %>").text( distance*0.001 + ' KM');
           }
           });
       </script>

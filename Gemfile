@@ -8,6 +8,7 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 1.2'
 
 gem 'devise'
+gem 'cancan'
 gem "twitter-bootstrap-rails"
 gem 'ckeditor_rails'
 gem 'jquery-ui-rails'
@@ -23,7 +24,3 @@ gem "quiet_assets", group: :development
 gem 'sqlite3', group: [:development, :test]
 gem "debugger", group: [:development, :test]
 
-group :production do 
-  gem 'pg'
-  gem 'rails_12factor'
-end

@@ -31,9 +31,11 @@ LastProject::Application.routes.draw do
       post 'vote_up'
       post 'vote_down'
       get 'show_direction'
+      
     end
     collection do 
       get 'all'
+      post 'search'
     end
   end
     

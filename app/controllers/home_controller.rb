@@ -1,6 +1,8 @@
 class HomeController < ApplicationController
-	layout 'user'	
+	layout 'user'
+
 	def index
+		@users = User.most_contributing
 	end
 	
 	def search

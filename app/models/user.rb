@@ -14,4 +14,8 @@ class User < ActiveRecord::Base
   has_many :badges, through: :user_badges
 
   validates :name, presence: true, uniqueness: true
+
+  def self.most_contributing
+    User.all.map { |user| [user.workshops.size,user] }.sort().reverse().slice(0,3)
+  end
 end

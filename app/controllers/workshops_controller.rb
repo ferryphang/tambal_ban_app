@@ -1,7 +1,7 @@
 class WorkshopsController < ApplicationController
   before_action :get_user_workshops, only: [:show, :edit, :update]
   before_action :get_workshop, only: [:vote_up, :vote_down, :create_comment, :show_direction]
-  before_action :authenticate_user!, except: [:show_direction, :show, :all]
+  before_action :authenticate_user!, except: [:show_direction, :show, :all, :search]
   layout 'user'
 
   def index
@@ -20,21 +20,32 @@ class WorkshopsController < ApplicationController
   end
 
   def edit
+    authorize! :update, @workshop
   end
 
   def create
     @workshop = current_user.workshops.new(workshop_params)
     @workshop.build_location latitude: params[:lat], longitude: params[:lng]
 
-    respond_to do |format|
       if @workshop.save
         redirect_to @workshop, :flash => { success: 'Workshop was successfully created.' }
       # else
       #   format.html { render action: 'new' }
       end
+  end
+
+  def update
+    authorize! :update, @workshop
+    respond_to do |format|
+      if @workshop.update(workshop_params)
+        format.html { redirect_to @workshop, success: 'Workshop was successfully updated.' }
+      else
+        format.html { render action: 'edit' }      
+      end
     end
   end
 
+  # CUSTOM ROUTES
   def create_comment
     @comment = Comment.build_from(@workshop, current_user.id, params[:body] )
     if @comment.save
@@ -65,14 +76,8 @@ class WorkshopsController < ApplicationController
     @comments = @workshop.comment_threads.page(params[:page]).per(15)
   end
 
-  def update
-    respond_to do |format|
-      if @workshop.update(workshop_params)
-        format.html { redirect_to @workshop, success: 'Workshop was successfully updated.' }
-      else
-        format.html { render action: 'edit' }      
-      end
-    end
+  def search
+    @workshops = Workshop.full_search(params[:search])
   end
 
   private
