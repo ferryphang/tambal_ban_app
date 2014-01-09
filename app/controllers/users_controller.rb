@@ -13,8 +13,17 @@ class UsersController < ApplicationController
 	end
 
 	def update
-		if @user.update(get_param)
-			redirect_to user_path
+		updated = unless needs_password?(@user, get_param)
+			@user.update_without_password(get_param)
+		else
+			@user.update(get_param)
+		end
+
+		if updated
+      sign_in @user, :bypass => true
+			redirect_to user_path, :flash => { success: 'User profile successfully updated.' }
+		else
+			redirect_to user_path, :flash => { warning: 'User failed to update.' }
 		end
 	end
 
@@ -25,6 +34,10 @@ class UsersController < ApplicationController
 		end
 
 		def get_param
-			params[:user].permit(:name, :avatar)
+			params[:user].permit(:name, :avatar, :password, :password_confirmation)
 		end
+
+		def needs_password?(user, params)
+	    params[:email].present? || params[:password].present? || params[:current_password]
+	  end
 end
