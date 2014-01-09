@@ -4,8 +4,10 @@ class UsersController < ApplicationController
 	layout 'user'
 	
 	def show
+
 		@user_workshops = @user.workshops.page(params[:page]).per(15)
-		@user_badges = @user.user_badges.includes(:badge)
+		@user_badges = @user.user_badges
+		debugger
 	end
 
 	def edit

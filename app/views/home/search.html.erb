@@ -23,12 +23,12 @@
         <span class="label label-info">
 
         <span class="glyphicon glyphicon-thumbs-up"></span>
-        <%= pluralize(location.workshop.votes_for, 'Like') %>
+        <%= location.workshop.votes_for %>
         </span>
         &nbsp;
         <span class="label label-danger">
         <span class="glyphicon glyphicon-thumbs-down"></span>
-        <%= pluralize(location.workshop.votes_against, 'Unlike') %>
+        <%= location.workshop.votes_against %>
         </span>
         <br/>
         <%= content_tag(:span,"Calculating ...", id: "location#{location.workshop.id}", class: "label label-primary" ) %>

@@ -19,9 +19,7 @@
       <table>
       <tr>
         <% @user_badges.each_with_index do |badge,index| %>
-
-
-       <td> <%= image_tag badge.badge.picture.thumb.url, class: "thumbnail" if badge.blank? %>
+       <td> <%= image_tag badge.badge.picture.thumb.url, class: "thumbnail" if !badge.blank? %>
        </td>
         <% end %>
         

@@ -1,10 +1,13 @@
-<fieldset>
+
   <div class="panel panel-danger">
     <div class="panel-heading">
-      <h3 class="panel-title"><%= @workshop.name %></h3>
+      <h3 class="panel-title"><strong><%= @workshop.name %></strong></h3>
     </div>
     <div class="panel-body">
-      <%= raw @workshop.about %>
+      <div class="well">
+        <strong>Additional info:</strong>
+        <%= raw @workshop.about %>
+      </div>
       <p>Contributed by:<strong><%= @workshop.creator.name %></strong></p>
       <span class="label label-info">
         <span class="glyphicon glyphicon-thumbs-up"></span>
@@ -17,16 +20,23 @@
       </span>
     </div>
   </div>  
-  <h3 id="distance"></h3>
-  <%= button_to vote_up_workshop_path(@workshop.id), class: "btn btn-info half", method: :post do %>
-    <span class='glyphicon glyphicon-thumbs-up'></span>
-    Like
-  <% end %>
-  <%= button_to vote_down_workshop_path(@workshop.id), class: "btn btn-danger half", method: :post do %>
-    <span class='glyphicon glyphicon-thumbs-down'></span>
-    Unlike
-  <% end %>
+
+  <div id="distance"></div>
+
+  <% if !@workshop.voted_by?(current_user) %>
+    <fieldset>
+    <%= button_to vote_up_workshop_path(@workshop.id), class: "btn btn-info half", method: :post  do %>
+      <span class='glyphicon glyphicon-thumbs-up'></span>
+      Like
+    <% end %>
+    <%= button_to vote_down_workshop_path(@workshop.id), class: "btn btn-danger half", method: :post do %>
+      <span class='glyphicon glyphicon-thumbs-down'></span>
+      Unlike
+    <% end %>
+    
 </fieldset>
+  <% end %>
+
 <div id="map_canvas" style="height:500px;">
 <div class="spinner">
   <div class="spinner-container container1">
@@ -173,11 +183,20 @@
   <hr>
   <fieldset>
     <legend align="center">Comment</legend>
-    <table>
+    <table class="table">
       <% @comments.each do |comment| %>
         <tr>
           <td width="20%"><%= link_to image_tag(comment.user.avatar.thumb.url), user_path(comment.user.id) %></td>
-          <td align="left"><%= comment.body %></td>
+          <td align="left">
+            <strong>
+              <% if user_signed_in? && current_user.id == comment.user.id %>
+                You
+              <% else %>
+                <%= comment.user.name %>
+              <% end %>
+            </strong>
+            <p><%= comment.body %></p>
+          </td>
         </tr>
       <% end %>
     </table>
@@ -283,7 +302,7 @@
                     time += e[0].legs[i].duration.value;
                     distance += e[0].legs[i].distance.value;
                 }
-                $('h3#distance').text(distance*0.001 + ' KM from your position');
+                $('#distance').addClass('alert alert-info').append( '<strong>' + distance*0.001 + "</strong> km from your position" );
             }
         });
       });
