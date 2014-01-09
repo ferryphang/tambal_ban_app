@@ -20,7 +20,7 @@
       <tr>
         <% @user_badges.each_with_index do |badge,index| %>
 
-       <td> <%= image_tag badge.badge.picture.thumb.url, class: "thumbnail" %>
+       <td> <%= image_tag badge.badge.picture.thumb.url, class: "thumbnail" if badge.blank? %>
        </td>
         <% end %>
         
@@ -60,7 +60,5 @@
 <%= paginate @user_workshops %> 
 
 <% if can? :update, @user %>
-	<%= button_tag(type: 'button', class: 'btn btn-warning') do %>
-		<%= link_to "Edit Profile", edit_user_path(@user.id) %>
-	<% end %>  
+	<%= button_to 'Edit Profile', edit_user_path(@user.id), class: 'btn btn-warning', method: :get %>
 <% end %>

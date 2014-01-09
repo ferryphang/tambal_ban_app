@@ -56,3 +56,27 @@ belongs_to :user
 ```
 - rate
 - comment
+
+
+**************************
+REVISI PA HANDI & PA WAWAN
+**************************
+
+- setelah like harus ada label 'you like this place'
+- view comment dibuka saja dan dibuat more
+- kalau diri sendiri tampilkan 'you has comment'
+- tidak perlu ada created by
+- status true diganti aktif
+- posisikan location finder find button ke atas
+- create workshop dengan urutan:
+  - name
+  - address
+  - type
+  - location
+  - show map button
+  - submit ada di paling bawah
+- bukan create workshop ganti menjadi new contribution
+- ganti input field styling, input di full space
+- harus ada informasi berapa yang like
+- ganti penamaan workshop
+- ganti penamaan web

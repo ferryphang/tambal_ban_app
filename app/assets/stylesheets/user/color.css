@@ -5,8 +5,15 @@
 	border-color: #BB2222;
 }
 
+
+/*MY CUSTOM*/
 .profile{
   width: 100px;
   height: 100px;
   display: block;
+}
+
+.content label{
+  float: left;
+  width: 100px;
 }
