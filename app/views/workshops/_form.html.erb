@@ -1,34 +1,177 @@
-  <p id="demo">Click the button to get your position:</p>
 
-<button onclick="getLocation()" id="locationtrigger" class="half">Get my location</button>
-<%= form_for @workshop do |f| %>
+
+
+<fieldset>
+<%= form_for @workshop, class: "form-group" do |f| %>
+  
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, placeholder: "Name", class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :address %>
+    <%= f.text_field :address, placeholder: "Address", class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :category %><br/>
+    <%= f.collection_select :category_id, Category.all, :id, :name, {prompt: "Select a category"}, {class: "form-control"}  %>
+  </div>
+  <div class="form-group">
+    <%= f.label :About, align: 'left' %> 
+    <%= f.text_area :about, class: "form-control" %>
+  </div>
+  <%= hidden_field_tag :lat, :lat, id: "lat" %>
+  <%= hidden_field_tag :lng, :lng, id: "lng" %>
+  <div class="content">
+    <div id="map_canvas" style="height:300px;width:100%;">
+      <div class="spinner">
+        <div class="spinner-container container1">
+          <div class="circle1"></div>
+          <div class="circle2"></div>
+          <div class="circle3"></div>
+          <div class="circle4"></div>
+        </div>
+        <div class="spinner-container container2">
+          <div class="circle1"></div>
+          <div class="circle2"></div>
+          <div class="circle3"></div>
+          <div class="circle4"></div>
+        </div>
+        <div class="spinner-container container3">
+          <div class="circle1"></div>
+          <div class="circle2"></div>
+          <div class="circle3"></div>
+          <div class="circle4"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <%= button_tag(type: 'submit', class: 'half', disabled: true) do %>
     Submit
   <% end %>
-  <table>
-    <tr><td><%= f.text_field :name, placeholder: "Name" %></td></tr>
-    <tr><td><%= f.text_field :address, placeholder: "Address" %></td></tr>
-    <tr><td align='left'><%= f.collection_select :category_id, Category.all, :id, :name %></td></tr>
-    <tr><td>
-      <%= f.label :About, align: 'left' %> 
-      <%= f.text_area :about %>
-    </td></tr>
-
-  </table>
-  <div class="contetn">
-    <div id="map_canvas" style="height:300px;width:300px;"></div>
-  </div>
+  <%= button_tag(workshops_path, class: 'half') do %>
+    Back
+  <% end %>
 
 
-
-  <%= hidden_field_tag :lat, :lat, id: "lat" %>
-  <%= hidden_field_tag :lng, :lng, id: "lng" %>
-
- 
-  
 <% end %>
+</fieldset>
+<style type="text/css">
+  .spinner {
+  margin: 100px auto;
+  width: 50px;
+  height: 50px;
+  position: relative;
+}
 
+.container1 > div, .container2 > div, .container3 > div {
+  width: 6px;
+  height: 6px;
+  background-color: #FF4136;
+
+  border-radius: 100%;
+  position: absolute;
+  -webkit-animation: bouncedelay 1.2s infinite ease-in-out;
+  animation: bouncedelay 1.2s infinite ease-in-out;
+  /* Prevent first frame from flickering when animation starts */
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.spinner .spinner-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.container2 {
+  -webkit-transform: rotateZ(45deg);
+  transform: rotateZ(45deg);
+}
+
+.container3 {
+  -webkit-transform: rotateZ(90deg);
+  transform: rotateZ(90deg);
+}
+
+.circle1 { top: 0; left: 0; }
+.circle2 { top: 0; right: 0; }
+.circle3 { right: 0; bottom: 0; }
+.circle4 { left: 0; bottom: 0; }
+
+.container2 .circle1 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+
+.container3 .circle1 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+.container1 .circle2 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+
+.container2 .circle2 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+
+.container3 .circle2 {
+  -webkit-animation-delay: -0.7s;
+  animation-delay: -0.7s;
+}
+
+.container1 .circle3 {
+  -webkit-animation-delay: -0.6s;
+  animation-delay: -0.6s;
+}
+
+.container2 .circle3 {
+  -webkit-animation-delay: -0.5s;
+  animation-delay: -0.5s;
+}
+
+.container3 .circle3 {
+  -webkit-animation-delay: -0.4s;
+  animation-delay: -0.4s;
+}
+
+.container1 .circle4 {
+  -webkit-animation-delay: -0.3s;
+  animation-delay: -0.3s;
+}
+
+.container2 .circle4 {
+  -webkit-animation-delay: -0.2s;
+  animation-delay: -0.2s;
+}
+
+.container3 .circle4 {
+  -webkit-animation-delay: -0.1s;
+  animation-delay: -0.1s;
+}
+
+@-webkit-keyframes bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0.0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes bouncedelay {
+  0%, 80%, 100% { 
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 40% { 
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+</style>
 <script>
+getLocation()
 var x=document.getElementById("demo");
 function getLocation()
   {

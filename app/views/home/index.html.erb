@@ -1,24 +1,39 @@
-<fieldset class="text-center">
-<legend align="center">Top 3 Contributor</legend>
-<table class="table">
-<% @users.each do |user| %>
-<td><%= link_to image_tag(user.last.avatar_url(:thumb),class: "thumbnail"), user_path(user.last.id) %></td>
-<% end %>
- </tr>
-</table> 
+<% if @users.size == 3 %>
+  <legend align="center">Top 3 Contributor</legend>
+  <table class="table">
+    <% @users.each do |user| %>
+    <td><%= link_to image_tag(user.last.avatar_url(:thumb),class: "thumbnail"), user_path(user.last.id) %></td>
+    <% end %>
+   </tr>
+  </table>
+<% end %> 
 <%= form_tag search_home_index_path, :id => 'form_user' do %>
   <%= hidden_field_tag :user_location %>
-    <%= image_tag "user/map.svg", :width => "50%", margin: "70%" %>
-
-
+  <!--   <%= image_tag "user/map.svg", :width => "50%", margin: "70%", id: "blur" %>
+    <div class="blur  "></div>
+    <style type="text/css">
+      #blur {  
+      -webkit-filter: blur(3px); 
+      position: relative;
+      z-index: -1; 
+      }  
+    </style> -->      
+    <style type="text/css">
+      .st-pusher{
+        background: url('<%= asset_path 'user/map.svg' %>') center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover; 
+      }
+    </style>
     <h3 class="tile-title">Location Finder</h3>
     <p>Click the button to find nearest location</p>
     <br/>
-    <%= select_tag(:category, options_from_collection_for_select(Category.all, "id", "name")) %>
+    <%= select_tag(:category, options_from_collection_for_select(Category.all, "id", "name"), {class: "form-control"}) %>
     <br/>
     <button class="btn btn-block btn-lg btn-danger" id="trigger" type="submit" disabled>Please wait...</button>
 <% end %>
-</fieldset>
 <script type="text/javascript">
   function getLocation(){
     if (navigator.geolocation){

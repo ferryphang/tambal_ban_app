@@ -28,7 +28,7 @@
         <% end %>
 
         <% if user_signed_in? %>
-          <li><%= link_to "My Workshop", workshops_path, class: "ico services" %></li>
+          <li><%= link_to "Contribute", workshops_path, class: "ico services" %></li>
           <li><%= link_to "Profile", user_path(current_user.id), class: "ico aboutus" %></li>
           <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete  %></li>
         <% end %>
@@ -59,9 +59,10 @@
                   
           <div class="content">
             <%= render partial: "shared/user_notification" %>
+    
             <%= yield %>            
           </div>
-
+       
         </div><!-- /st-content-inner -->
       </div><!-- /st-content -->
     </div><!-- /st-pusher -->

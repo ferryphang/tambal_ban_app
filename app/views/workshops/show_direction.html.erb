@@ -1,68 +1,198 @@
 <fieldset>
-<p><%= @workshop.name %></p>
-<p><%= @workshop.address %></p>
-<p><%= raw @workshop.about %></p>
-<p><%= @workshop.updated_at %></p>
-<p>Created by:<%= @workshop.creator.name %></p>
-<h3 id="distance"></h3>
-<%= button_to vote_up_workshop_path(@workshop.id), class: "btn btn-info half", method: :post do %>
-      <span class='glyphicon glyphicon-thumbs-up'></span> Like
-    <% end %>
-    <%= button_to vote_down_workshop_path(@workshop.id), class: "btn btn-danger half", method: :post do %>
-      <span class='glyphicon glyphicon-thumbs-down'></span> Unlike
-    <% end %>
-<button id="show_instruction">Direction</button>
+  <div class="panel panel-danger">
+    <div class="panel-heading">
+      <h3 class="panel-title"><%= @workshop.name %></h3>
+    </div>
+    <div class="panel-body">
+      <%= raw @workshop.about %>
+      <p>Contributed by:<strong><%= @workshop.creator.name %></strong></p>
+      <span class="label label-info">
+        <span class="glyphicon glyphicon-thumbs-up"></span>
+        <%= pluralize(@workshop.votes_for, 'Like') %>
+      </span>
+      &nbsp;
+      <span class="label label-danger">
+        <span class="glyphicon glyphicon-thumbs-down"></span>
+        <%= pluralize(@workshop.votes_against, 'Unlike') %>
+      </span>
+    </div>
+  </div>  
+  <h3 id="distance"></h3>
+  <%= button_to vote_up_workshop_path(@workshop.id), class: "btn btn-info half", method: :post do %>
+    <span class='glyphicon glyphicon-thumbs-up'></span>
+    Like
+  <% end %>
+  <%= button_to vote_down_workshop_path(@workshop.id), class: "btn btn-danger half", method: :post do %>
+    <span class='glyphicon glyphicon-thumbs-down'></span>
+    Unlike
+  <% end %>
 </fieldset>
-  <!-- Instruction -->
-  <div id="instructions_container">
-    <fieldset>
+<div id="map_canvas" style="height:500px;">
+<div class="spinner">
+  <div class="spinner-container container1">
+    <div class="circle1"></div>
+    <div class="circle2"></div>
+    <div class="circle3"></div>
+    <div class="circle4"></div>
+  </div>
+  <div class="spinner-container container2">
+    <div class="circle1"></div>
+    <div class="circle2"></div>
+    <div class="circle3"></div>
+    <div class="circle4"></div>
+  </div>
+  <div class="spinner-container container3">
+    <div class="circle1"></div>
+    <div class="circle2"></div>
+    <div class="circle3"></div>
+    <div class="circle4"></div>
+  </div>
+</div></div>
+<style type="text/css">
+  .spinner {
+  margin: 100px auto;
+  width: 50px;
+  height: 50px;
+  position: relative;
+}
+
+.container1 > div, .container2 > div, .container3 > div {
+  width: 6px;
+  height: 6px;
+  background-color: #FF4136;
+
+  border-radius: 100%;
+  position: absolute;
+  -webkit-animation: bouncedelay 1.2s infinite ease-in-out;
+  animation: bouncedelay 1.2s infinite ease-in-out;
+  /* Prevent first frame from flickering when animation starts */
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.spinner .spinner-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.container2 {
+  -webkit-transform: rotateZ(45deg);
+  transform: rotateZ(45deg);
+}
+
+.container3 {
+  -webkit-transform: rotateZ(90deg);
+  transform: rotateZ(90deg);
+}
+
+.circle1 { top: 0; left: 0; }
+.circle2 { top: 0; right: 0; }
+.circle3 { right: 0; bottom: 0; }
+.circle4 { left: 0; bottom: 0; }
+
+.container2 .circle1 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+
+.container3 .circle1 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+.container1 .circle2 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+
+.container2 .circle2 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+
+.container3 .circle2 {
+  -webkit-animation-delay: -0.7s;
+  animation-delay: -0.7s;
+}
+
+.container1 .circle3 {
+  -webkit-animation-delay: -0.6s;
+  animation-delay: -0.6s;
+}
+
+.container2 .circle3 {
+  -webkit-animation-delay: -0.5s;
+  animation-delay: -0.5s;
+}
+
+.container3 .circle3 {
+  -webkit-animation-delay: -0.4s;
+  animation-delay: -0.4s;
+}
+
+.container1 .circle4 {
+  -webkit-animation-delay: -0.3s;
+  animation-delay: -0.3s;
+}
+
+.container2 .circle4 {
+  -webkit-animation-delay: -0.2s;
+  animation-delay: -0.2s;
+}
+
+.container3 .circle4 {
+  -webkit-animation-delay: -0.1s;
+  animation-delay: -0.1s;
+}
+
+@-webkit-keyframes bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0.0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes bouncedelay {
+  0%, 80%, 100% { 
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 40% { 
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+</style>
+<!-- Instruction -->
+<div id="instructions_container">
+  <fieldset>
     <legend class="title"><span>Routes</span></legend>
     <ul id="instructions"></ul>
-    </fieldset>
-  </div>
-
-  <div id="map_canvas" style="height:500px;" class="well">
-    <h3 class="btn btn-warning" align="center">Please Wait..</h3>
-  </div>  
-
-  <!-- List Comments -->
-  <button id="show_comments"> Show Comments</button>
-
-  <% if !@workshop.comment_threads.blank? %>
-  <div id="comments"> 
-      <hr>
-
-    <fieldset>
- 
+  </fieldset>
+</div>
+<!-- List Comments -->
+<% if !@workshop.comment_threads.blank? %>
+  <hr>
+  <fieldset>
+    <legend align="center">Comment</legend>
     <table>
       <% @comments.each do |comment| %>
-        <tr> 
-        <td><%= link_to image_tag(comment.user.avatar.thumb.url), user_path(comment.user.id) %></td>
-        <td align="left"><%= comment.body %></td>
+        <tr>
+          <td width="20%"><%= link_to image_tag(comment.user.avatar.thumb.url), user_path(comment.user.id) %></td>
+          <td align="left"><%= comment.body %></td>
         </tr>
       <% end %>
     </table>
     <%= paginate @comments %>
-
-    </fieldset>
-  <% else %>
-    <script type="text/javascript">
-    $(document).ready(function(){
-      $('#show_comments').attr('disabled','disabled');
-      $('#show_comments').html('No Comments');
-    });
-    </script>
-  <% end %>
-  </div>
-
-
-  <!-- Comment Form -->
-
-  <fieldset class="text-center">
+  </fieldset>
+<% else %>
+<% end %>
+<!-- Comment Form -->
+<fieldset class="text-center">
   <% if user_signed_in? %>
-    <legend align="center">Form Comment</legend>  
-    <%= form_for @workshop, url: create_comment_workshop_path(@workshop), method: :post do |f| %>
-      <%= text_area_tag :body %>
+    <legend align="center">Form Comment</legend>
+    <%= form_for @workshop, url: create_comment_workshop_path(@workshop), method: :post, class: "form-group" do |f| %>
+      <div class="form-group">
+        <%= text_area_tag :body, nil, class: "form-control"  %>
+      </div>
       <%= button_tag type: "submit" do %>
         Send Comment
       <% end %>
@@ -71,108 +201,96 @@
     <legend align="center">Login to give comment</legend>
     <%= link_to "<button>Sign In</button>".html_safe, new_user_session_path %>
   <% end %>
-  </fieldset>
-
+</fieldset>
 <script type="text/javascript">
-var map;
-$(document).ready(function(){
-  var user_location = [];
-
-  if (navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(function(position){
-      user_location[0] = position.coords.latitude;
-      user_location[1] = position.coords.longitude;
-
-      var coordinate = {
-        origin: [user_location[0],user_location[1]],
-        destination: [<%= @workshop.location.latitude%>, <%= @workshop.location.longitude %>]
-      }
-
-      map = new GMaps({
-        el: '#map_canvas',
-        lat: coordinate.origin[0],
-        lng: coordinate.origin[1],
-        zoom: 17
-      });
-      map.addMarker({
-        lat: coordinate.origin[0],
-        lng: coordinate.origin[1],
-        title: 'User Location',
-        icon: "/assets/male.png"
-      });
-
-      map.addMarker({
-        lat: coordinate.destination[0],
-        lng: coordinate.destination[1],
-        title: '<%= @workshop.name %>',
-        icon: "<%= @workshop.category.marker.thumb.url %>",
-        infoWindow: {
-          content: '<%= @workshop.name %>'
+  var map;
+  $(document).ready(function(){
+    var user_location = [];
+  
+    if (navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(function(position){
+        user_location[0] = position.coords.latitude;
+        user_location[1] = position.coords.longitude;
+  
+        var coordinate = {
+          origin: [user_location[0],user_location[1]],
+          destination: [<%= @workshop.location.latitude%>, <%= @workshop.location.longitude %>]
         }
-      });
-
-      <% @workshops.each do |workshop| %>
+  
+        map = new GMaps({
+          el: '#map_canvas',
+          lat: coordinate.origin[0],
+          lng: coordinate.origin[1],
+          zoom: 17
+        });
         map.addMarker({
-          lat: <%= workshop.location.latitude %>,
-          lng: <%= workshop.location.longitude %>,
-          title: '<%= workshop.name %>',
-          icon: "<%= workshop.category.marker.thumb.url %>",
+          lat: coordinate.origin[0],
+          lng: coordinate.origin[1],
+          title: 'User Location',
+          icon: "/assets/male.png"
+        });
+  
+        map.addMarker({
+          lat: coordinate.destination[0],
+          lng: coordinate.destination[1],
+          title: '<%= @workshop.name %>',
+          icon: "<%= @workshop.category.marker.thumb.url %>",
           infoWindow: {
-            content: '<%= link_to workshop.name, show_direction_workshop_path(workshop.id) %><br/>'
+            content: '<%= @workshop.name %>'
           }
         });
-      <% end %>
-
-      map.travelRoute({
-        origin: coordinate.origin,
-        destination: coordinate.destination,
-        travelMode: 'driving',
-        step: function(e) {
-          $('#instructions').append('<li>'+e.instructions+'</li>');
-          $('#instructions li:eq(' + e.step_number + ')').delay(500 * e.step_number).fadeIn(200, function() {
-            map.drawPolyline({
-              path: e.path,
-              strokeColor: '#FF4136',
-              strokeOpacity: 0.3,
-              strokeWeight: 6
-            });  
-          });
-        }
-      });
-
-      map.getRoutes({
-          origin: coordinate.origin,
-          destination: coordinate.destination,  
-          avoidHighways: false,
-          avoidTolls: false,
-          travelMode: 'driving',
-          unitSystem: "IMPERIAL",
-          callback: function (e) {
-              var time = 0;
-              var distance = 0;
-              for (var i=0; i<e[0].legs.length; i++) {
-                  time += e[0].legs[i].duration.value;
-                  distance += e[0].legs[i].distance.value;
-              }
-              $('h3#distance').text(distance*0.001 + ' KM from your position');
-          }
-      });
-    });
-  }else{
-    alert("Geolocation is not supported by this browser.");
-  }
-
-  $('#comments').hide();
-  $('#instructions_container').hide();
   
-  $('#show_instruction').click(function() {
-    $( "#instructions_container" ).fadeToggle("slow");
+        <% @workshops.each do |workshop| %>
+          map.addMarker({
+            lat: <%= workshop.location.latitude %>,
+            lng: <%= workshop.location.longitude %>,
+            title: '<%= workshop.name %>',
+            icon: "<%= workshop.category.marker.thumb.url %>",
+            infoWindow: {
+              content: '<%= link_to workshop.name, show_direction_workshop_path(workshop.id) %><br/>'
+            }
+          });
+        <% end %>
+  
+        map.travelRoute({
+          origin: coordinate.origin,
+          destination: coordinate.destination,
+          travelMode: 'driving',
+          step: function(e) {
+            $('#instructions').append('<li>'+e.instructions+'</li>');
+            $('#instructions li:eq(' + e.step_number + ')').delay(500 * e.step_number).fadeIn(200, function() {
+              map.drawPolyline({
+                path: e.path,
+                strokeColor: '#FF4136',
+                strokeOpacity: 0.3,
+                strokeWeight: 6
+              });
+            });
+          }
+        });
+  
+        map.getRoutes({
+            origin: coordinate.origin,
+            destination: coordinate.destination,
+            avoidHighways: false,
+            avoidTolls: false,
+            travelMode: 'driving',
+            unitSystem: "IMPERIAL",
+            callback: function (e) {
+                var time = 0;
+                var distance = 0;
+                for (var i=0; i<e[0].legs.length; i++) {
+                    time += e[0].legs[i].duration.value;
+                    distance += e[0].legs[i].distance.value;
+                }
+                $('h3#distance').text(distance*0.001 + ' KM from your position');
+            }
+        });
+      });
+    }else{
+      alert("Geolocation is not supported by this browser.");
+    }
+  
+  
   });
-  $('#show_comments').click(function() {
-    $("#comments").fadeToggle("slow");
-  });
-
-});
-
-
 </script>

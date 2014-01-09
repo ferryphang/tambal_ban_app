@@ -8,7 +8,7 @@ class HomeController < ApplicationController
 	
 	def search
 		@user_location = get_user_location
-		@locations = Location.includes(:workshop).nearby(@user_location, params[:category])
+		@locations = Location.includes(:workshop).nearby(@user_location, params[:category])		
 	end
 
 	private 
