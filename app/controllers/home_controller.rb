@@ -2,6 +2,7 @@ class HomeController < ApplicationController
 	layout 'user'
 
 	def index
+		@badge = Badge.first
 		@users = User.most_contributing
 	end
 	

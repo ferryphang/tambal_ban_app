@@ -1,6 +1,6 @@
 class WorkshopsController < ApplicationController
-  before_action :get_user_workshops, only: [:show, :edit, :update]
-  before_action :get_workshop, only: [:vote_up, :vote_down, :create_comment, :show_direction]
+  before_action :get_user_workshops, only: [:edit, :update]
+  before_action :get_workshop, only: [:vote_up, :vote_down, :create_comment, :show_direction, :show]
   before_action :authenticate_user!, except: [:show_direction, :show, :all, :search]
   layout 'user'
 

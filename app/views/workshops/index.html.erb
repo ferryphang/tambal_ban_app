@@ -1,24 +1,25 @@
 <% unless @workshops.blank? %>
   <h1>Listing workshops</h1>
 
-  <table class="table table-bordered">
+  <table class="table">
     <thead>
       <tr>
         <th>Name</th>
         <th>Category</th>
         <th>Status</th>
-        <th colspan="3"></th>
+        <th></th>
       </tr>
     </thead>
 
     <tbody>
       <% @workshops.includes(:location,:category).each do |workshop| %>
         <tr>
-          <td><%= workshop.name %></td>
+          <td><%= link_to workshop.name, workshop %></td>
           <td><%= workshop.category.name %></td>
-          <td><%= workshop.status %></td>
-          <td><%= link_to 'Show', workshop, 'data-no-turbolink' => true %></td>
-          <td><%= link_to 'Edit', edit_workshop_path(workshop), 'data-no-turbolink' => true %></td>
+          <td><span class="label label-success"><%= workshop.status %></span></td>
+          <td>
+          <%= link_to 'Edit', edit_workshop_path(workshop), 'data-no-turbolink' => true %>
+          </td>
         </tr>
       <% end %>
     </tbody>
@@ -26,4 +27,4 @@
 <% else %>
   <h2>Sorry, you dont create any workshops yet</h2>
 <% end %>
-<%= link_to 'Create Workshop', new_workshop_path %>
+<%= link_to 'Create Workshop', new_workshop_path, class: "btn btn-default" %>
