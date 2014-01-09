@@ -6,6 +6,7 @@
   		<tr>
   			<td>
   				<%= image_tag @user.avatar_url(:thumb),class: "thumbnail" if @user.avatar? %>
+          <%= image_tag(asset_path("user/user_default.jpg"), class: "profile") unless @user.avatar? %>
   			</td>
   			<td>
   				<p>

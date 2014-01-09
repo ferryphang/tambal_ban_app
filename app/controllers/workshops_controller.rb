@@ -28,6 +28,7 @@ class WorkshopsController < ApplicationController
     @workshop.build_location latitude: params[:lat], longitude: params[:lng]
 
       if @workshop.save
+        @workshop.give_badge
         redirect_to @workshop, :flash => { success: 'Workshop was successfully created.' }
       # else
       #   format.html { render action: 'new' }

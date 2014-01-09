@@ -1,18 +1,27 @@
-<h1>Categories#index</h1>
-<div class="container">
-  <h2><%= link_to 'New Category', new_admin_category_path %></h2>
-  <table class="table table-striped">
+<%= link_to 'New Category', new_admin_category_path, class: "btn btn-primary", 'data-no-turbolink' => true %>
+<hr>
+<table class="table table-bordered">
+  <thead>
+    <th>Name</th>
+    <th>Marker</th>
+    <th colspan="2">&nbsp;</th>    
+  </thead>
+  <tbody>
   <% @categories.each do |category| %>
     <tr>
       <td>
-        <p>Category Name: <b><%= category.name %></b></p>
+        <b><%= category.name %></b>
       </td>
+      <td><%= image_tag category.marker.thumb.url %></td>
       <td>
         <%= link_to 'Edit', edit_admin_category_path(category) %>
-        |
+      </td>
+      <td>
         <%= link_to 'Delete', admin_category_path(category), method: 'delete', confirm: 'Are You Sure?' %>
       </td>
     </tr>
   <% end %>
-  </table>
-</div>
+  </tbody>
+</table>
+<%= paginate @categories %>
+

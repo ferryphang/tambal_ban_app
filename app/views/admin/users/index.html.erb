@@ -1,3 +1,4 @@
+<h1>User Badges</h1>
 <hr>
 <table class="table table-bordered">
   <thead>
@@ -12,13 +13,15 @@
         <b><%= user.name %></b>
       </td>
       <td>
-        Badge Picture
+        <% user.badges.each do |badge| %>
+          <%= image_tag badge.picture.thumb.url %>
+        <% end %>
       </td>
       <td>
         <%= link_to 'Give Badge', give_badges_admin_user_path(user) %>
       </td>
       <td>
-        <%= link_to 'Take Badge', save_badges_admin_user_path(user), method: 'delete', confirm: 'Are You Sure?' %>
+        <%= link_to 'Take Badge', take_badges_admin_user_path(user) %>
       </td>
     </tr>
   <% end %>

@@ -17,6 +17,8 @@ LastProject::Application.routes.draw do
       member do     
          get 'give_badges'
          post 'save_badges'
+         get 'take_badges'
+         post 'destroy_badges'
       end
     end
   end

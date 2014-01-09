@@ -7,11 +7,10 @@ class Admin::UsersController < Admin::AdministratorsController
 
   def give_badges
     @user = User.find params[:id]
-    @badges = Badge.all - @user.badges
+    @badges = Badge.all - @user.badges   
   end
 
-  def save_badges
-   
+  def save_badges   
     user = User.find_by id: params[:id]
     user.transaction do
       params[:badge].each do |badge|
@@ -26,5 +25,20 @@ class Admin::UsersController < Admin::AdministratorsController
     # end
   end
 
+  def take_badges
+    @user = User.find params[:id]
+    @badges = @user.badges
+  end
+
+  def destroy_badges   
+    user = User.find_by id: params[:id]
+    user.transaction do
+      params[:badge].each do |badge|
+        temp = user.user_badges.find_by badge_id: badge
+        temp.destroy
+      end
+    end
+
+  end
 
 end

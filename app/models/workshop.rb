@@ -10,7 +10,18 @@ class Workshop < ActiveRecord::Base
 	validates :address, presence: true	
 	validates :about, presence:true
 
+  after_create :get_badge
+
   def self.full_search(string)
     Workshop.where("name LIKE '%#{string}%' OR address LIKE '%#{string}%' OR about LIKE '%#{string}%'")
   end
+
+  private
+
+    def get_badge
+      if creator.workshops.count == 1
+        creator.user_badges.create(badge_id: 4)
+      end
+    end
+
 end

@@ -2,7 +2,7 @@ class Admin::CategoriesController < Admin::AdministratorsController
   before_action :authenticate_admin!
   before_action :get_category, only: [:edit, :update, :destroy]
   def index
-    @categories = Category.all
+    @categories = Category.all.page(params[:page]).per(15)
   end
 
   def new
