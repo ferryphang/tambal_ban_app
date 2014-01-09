@@ -36,9 +36,15 @@ class Admin::UsersController < Admin::AdministratorsController
       params[:badge].each do |badge|
         temp = user.user_badges.find_by badge_id: badge
         temp.destroy
+        tran_success = true
       end
     end
 
+    if tran_success
+      redirect_to admin_badges_path, notice: "Success, the badges have been given to #{@user.name}"
+    else
+      redirect_to admin_badges_path, notice: "Sorry, the badges didnot given to #{@user.name}"
+    end
   end
 
 end

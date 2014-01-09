@@ -19,7 +19,7 @@ class Workshop < ActiveRecord::Base
   private
 
     def get_badge
-      if creator.workshops.count == 1
+      if creator.workshops.count == 1 && creator.class == User
         creator.user_badges.create(badge_id: 4)
       end
     end
