@@ -453,6 +453,13 @@ header  h1 {
 	background-color: #dcffc8;
 	border: 1px solid #a0dc96;
 }
+
+.notice {
+	color: seagreen;
+	background-color: #dcffc8;
+	border: 1px solid #a0dc96;
+}
+
 .warning {
 	color: peru;
 	background-color: #ffffc8;

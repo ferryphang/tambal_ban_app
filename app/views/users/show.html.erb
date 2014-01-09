@@ -15,6 +15,16 @@
   				</p>
   			</td>
   		</tr>
+      <table>
+      <tr>
+        <% @user_badges.each_with_index do |badge,index| %>
+
+       <td> <%= image_tag badge.badge.picture.thumb.url, class: "thumbnail" %>
+       </td>
+        <% end %>
+        
+      </tr>
+    </table>
   		<tr>
   			<td colspan="2">
 					<%= button_to "#", class: "btn btn-info half", method: :post do %>
@@ -26,15 +36,8 @@
 					<% end %>
   			</td>
   		</tr>
-      <tr>
-        <td>
-          <% @user_badges.each do |badge| %>
-            <%= image_tag badge.badge.picture.thumb.url, width: "30%" %> 
-          <% end %>
-        </td>
-      </tr>
     </table>
-
+    
 	</div>
 </div>
 
@@ -44,7 +47,7 @@
 	  <li class="list-group-item">
 	  	<span class="badge glyphicon glyphicon glyphicon-thumbs-down warning"> <%=workshop.votes_against %></span>
 	    <span class="badge glyphicon glyphicon glyphicon-thumbs-up success"> <%=workshop.votes_for %></span>
-	    <%= link_to workshop.name, show_direction_workshop_path(workshop) %>
+	    <%= link_to workshop.name, workshop_path(workshop.id) %>
 	  </li>
 	  <% end %>
   <% else %>
