@@ -103,7 +103,7 @@ button, .button {
 	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.4);
 	color: #FFF;
 	border-radius: 2px;
-	
+
 	-webkit-touch-callout:none;
 	-webkit-user-select:none;
 	-khtml-user-select:none;
@@ -143,7 +143,7 @@ fieldset:last-of-type {
 	margin-bottom: 0px;
 }
 legend {
-	display: table; 
+	display: table;
 	min-width: 0px;
 	max-width: 70%;
 	position: relative;
@@ -281,15 +281,15 @@ header  h1 {
 	width: 50px;
 	height: 50px;
 	background: center center no-repeat transparent;
-	background-image: url('menu_bars.png');
+	background-image: url(asset-path('user/menu_bars.png'));
 	box-shadow: none;
 	position: absolute;
 	top: 0;
-	left: 10px; 
+	left: 10px;
 	border:	none;
 	cursor: pointer;
 	margin: 0;
-	
+
 	-webkit-touch-callout:none;
 	-webkit-user-select:none;
 	-khtml-user-select:none;
@@ -312,7 +312,7 @@ header  h1 {
 	top: 0;
 	right: 10px;
 	padding: 0px 10px;
-	
+
 	-webkit-touch-callout:none;
 	-webkit-user-select:none;
 	-khtml-user-select:none;
@@ -411,7 +411,7 @@ header  h1 {
 	background-color: transparent;
 	background-repeat: no-repeat;
 	background-position: 0px 0px;
-	background-image: url('ico-box_icons.png');
+	background-image: url(asset-path('user/ico-box_icons.png'));
 }
 .st-content .ico-box .new {			background-position: 0px 0px; }
 .st-content .ico-box .redesign {		background-position: 0px -32px; }
@@ -441,8 +441,8 @@ header  h1 {
 	max-width: 100%;
 	height: auto;
 	margin: 15px auto;
-} 
-.embed-container iframe, .embed-container object, .embed-container embed { 
+}
+.embed-container iframe, .embed-container object, .embed-container embed {
 	position: absolute;
 	margin-left: 0;
 	margin-right: 0;
@@ -552,7 +552,7 @@ header  h1 {
 	text-transform: uppercase;
 	padding-left: 21%;
 	opacity: 0.8;
-	
+
 	-webkit-touch-callout:none;
 	-webkit-user-select:none;
 	-khtml-user-select:none;
@@ -602,14 +602,14 @@ header  h1 {
 #searchinput::-moz-placeholder {  /* Firefox 19+ */
 	color: #FFF;
 }
-#searchinput:-ms-input-placeholder {  
+#searchinput:-ms-input-placeholder {
 	color: #FFF;
 }
 
 .st-menu .ico {
 	background-position: 0px 0px;
 	background-repeat: no-repeat;
-	background-image: url('menu_icons.png');
+	background-image: url(asset-path('user/menu_icons.png'));
 }
 .st-menu .search {		background-position: 0px 4px; }
 .st-menu .home {			background-position: 0px -36px; }
@@ -740,7 +740,7 @@ body,
  *
  * Vladimir Kharlampidi, The iDangero.us
  * http://www.idangero.us/
- * 
+ *
  * Copyright 2012-2013, Vladimir Kharlampidi
  * The iDangero.us
  * http://www.idangero.us
@@ -767,23 +767,23 @@ body,
 	-webkit-transition-duration:0s;
 	-webkit-transform:translate3d(0px,0,0);
 	-webkit-transition-timing-function:ease;
-	
+
 	-moz-transition-property:-moz-transform, left, top;
 	-moz-transition-duration:0s;
 	-moz-transform:translate3d(0px,0,0);
 	-moz-transition-timing-function:ease;
-	
+
 	-o-transition-property:-o-transform, left, top;
 	-o-transition-duration:0s;
 	-o-transform:translate3d(0px,0,0);
 	-o-transition-timing-function:ease;
 	-o-transform:translate(0px,0px);
-	
+
 	-ms-transition-property:-ms-transform, left, top;
 	-ms-transition-duration:0s;
 	-ms-transform:translate3d(0px,0,0);
 	-ms-transition-timing-function:ease;
-	
+
 	transition-property:transform, left, top;
 	transition-duration:0s;
 	transform:translate3d(0px,0,0);
@@ -880,12 +880,12 @@ sizes, pagination, etc.
 body.ps-active, body.ps-building, div.ps-active, div.ps-building {
 	overflow: hidden;
 }
-body.ps-active *, div.ps-active * { 
-	-webkit-tap-highlight-color:  rgba(255, 255, 255, 0); 
+body.ps-active *, div.ps-active * {
+	-webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
 	display: none;
 }
-body.ps-active *:focus, div.ps-active *:focus  { 
-	outline: 0; 
+body.ps-active *:focus, div.ps-active *:focus  {
+	outline: 0;
 }
 
 /* Document overlay */
@@ -894,9 +894,9 @@ div.ps-document-overlay  {
 }
 
 /* UILayer */
-div.ps-uilayer { 
+div.ps-uilayer {
 	cursor: pointer;
-	
+
 }
 
 /* Zoom/pan/rotate layer */
@@ -908,15 +908,15 @@ div.ps-zoom-pan-rotate * {
 }
 
 /* Carousel */
-div.ps-carousel-item-loading  { 
-	background: url(../img/photoswipe_loader.gif) no-repeat center center; 
+div.ps-carousel-item-loading  {
+	background: url(../img/photoswipe_loader.gif) no-repeat center center;
 }
-div.ps-carousel-item-error  { 
-	background: url(../img/photoswipe_error.gif) no-repeat center center; 
+div.ps-carousel-item-error  {
+	background: url(../img/photoswipe_error.gif) no-repeat center center;
 }
 
 /* Caption */
-div.ps-caption { 
+div.ps-caption {
 	background: #000000;
 	border-bottom: 1px solid #42403f;
 	color: #ffffff;
@@ -927,7 +927,7 @@ div.ps-caption {
 div.ps-caption * {
 	display: inline;
 }
-div.ps-caption-bottom { 
+div.ps-caption-bottom {
 	border-top: 1px solid #42403f;
 	border-bottom: none;
 	min-height: 44px;
@@ -938,7 +938,7 @@ div.ps-caption-content {
 }
 
 /* Toolbar */
-div.ps-toolbar { 
+div.ps-toolbar {
 	background: #000000;
 	border-top: 1px solid #42403f;
 	color: #ffffff;
@@ -949,7 +949,7 @@ div.ps-toolbar {
 	display: table;
 	table-layout: fixed;
 }
-div.ps-toolbar * { 
+div.ps-toolbar * {
 	display: block;
 }
 div.ps-toolbar-top  {
