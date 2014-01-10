@@ -19,7 +19,6 @@ class Workshop < ActiveRecord::Base
   private
 
     def get_badge
-      debugger
       if creator.class == User
         if creator.workshops.count == 1 
           creator.user_badges.create(badge_id: 1)

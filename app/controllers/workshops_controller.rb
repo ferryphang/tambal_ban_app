@@ -73,7 +73,7 @@ class WorkshopsController < ApplicationController
 
   def show_direction
     @workshops = Workshop.all
-    @comments = @workshop.comment_threads.page(params[:page]).per(2)
+    @comments = @workshop.comment_threads.page(params[:page]).per(10)
   end
 
   def search
