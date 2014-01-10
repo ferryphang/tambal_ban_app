@@ -1,63 +1,66 @@
-
-<div class="panel panel-default">
-  <div class="panel-heading"><strong><%= @user.name %></strong></div>
-  <div class="panel-body">
+<ul class="list-group">
+  <a href="#" class="list-group-item active">
+    <h5 class="list-group-item-heading"><%= @user.name %></h5>
+  </a>
+  <li class="list-group-item">
     <table class="table">
-  		<tr>
-  			<td>
-  				<%= image_tag @user.avatar_url(:thumb),class: "thumbnail" if @user.avatar? %>
-          <%= image_tag(asset_path("user/user_default.jpg"), class: "profile") unless @user.avatar? %>
-  			</td>
-  			<td>
-  				<p>
-  					Member since: <strong><%= @user.created_at.strftime("%d-%b-%Y") %></strong>
-            </br>
-            Last sign in : <strong><%= distance_of_time_in_words(Time.now - @user.last_sign_in_at.to_time) %> ago</strong>
-  				</p>
-  			</td>
-  		</tr>
-      <table>
       <tr>
-        <% @user_badges.each_with_index do |badge,index| %>
-       <td> <%= image_tag badge.badge.picture.thumb.url, class: "thumbnail" if !badge.blank? %>
-       </td>
-        <% end %>
-        
+        <td>
+          <%= image_tag @user.avatar_url(:thumb),class: "thumbnail" if @user.avatar? %>
+          <%= image_tag(asset_path("user/user_default.jpg"), class: "profile") unless @user.avatar? %>
+        </td>
+        <td>
+          <p>
+            Member since:
+            <strong><%= @user.created_at.strftime("%d-%b-%Y") %></strong>
+          </br>
+          Last sign in :
+          <strong><%= distance_of_time_in_words(Time.now - @user.last_sign_in_at.to_time) %>
+            ago</strong>
+        </p>
+        </td>
       </tr>
     </table>
-  		<tr>
-  			<td colspan="2">
-					<%= button_to "#", class: "btn btn-info half", method: :post do %>
-					  <span class='glyphicon glyphicon glyphicon-map-marker'></span> Contribute
-					<% end %>
-
-					<%= button_to "#", class: "btn btn-success half disabled", method: :post do %>
-					  <span class='glyphicon glyphicon glyphicon-heart'></span> Badge
-					<% end %>
-  			</td>
-  		</tr>
+    <table>
+      <span class="label label-info">User Badges</span>
+      <p></p>
+      <tr>
+        <% @user_badges.each_with_index do |badge,index| %>
+          <td>
+            <%= image_tag badge.badge.picture.thumb.url, class: "thumbnail" if !badge.blank? %>
+          </td>
+        <% end %>
+      </tr>
     </table>
-    
-	</div>
-</div>
-
-<ul class="list-group">
-	<% if !@user_workshops.blank? %>
-		<% @user_workshops.each do |workshop| %>
-	  <li class="list-group-item">
-	  	<span class="badge glyphicon glyphicon glyphicon-thumbs-down warning"> <%=workshop.votes_against %></span>
-	    <span class="badge glyphicon glyphicon glyphicon-thumbs-up success"> <%=workshop.votes_for %></span>
-	    <%= link_to workshop.name, workshop_path(workshop.id) %>
-	  </li>
-	  <% end %>
-  <% else %>
-  	<li class="list-group-item">
-	    This user haven't contributed to any workshops
-	  </li>
-	<% end %>
+  </li>
 </ul>
-<%= paginate @user_workshops %> 
-
+<% if !@user_workshops.blank? %>
+  <div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+      <h5>Contribution</h5></div>
+    <div class="panel-body">
+      <% @user_workshops.each do |workshop| %>
+        <li class="list-group-item">
+          <span class="badge glyphicon glyphicon glyphicon-thumbs-down warning">
+            <%=workshop.votes_against %></span>
+          <span class="badge glyphicon glyphicon glyphicon-thumbs-up success">
+            <%=workshop.votes_for %></span>
+          <%= link_to workshop.name, workshop_path(workshop.id) %>
+        </li>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+  <li class="list-group-item">
+    <% if user_signed_in? && current_user.id == @user.id %>
+      You haven't contributed yet
+    <% else %>
+      This user haven't contributed
+    <% end %>
+  </li>
+<% end %>
+<%= paginate @user_workshops %>
 <% if can? :update, @user %>
-	<%= button_to 'Edit Profile', edit_user_path(@user.id), class: 'btn btn-warning', method: :get %>
+  <%= button_to 'Edit Profile', edit_user_path(@user.id), class: 'btn btn-warning', method: :get %>
 <% end %>
