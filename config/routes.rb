@@ -8,7 +8,7 @@ LastProject::Application.routes.draw do
   end
   
   # ADMIN
-  devise_for :admins
+  devise_for :admins, :skip => [:registrations] 
   namespace 'admin' do 
     resources 'categories'
     resources 'workshops'
