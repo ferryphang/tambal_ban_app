@@ -24,3 +24,10 @@ gem "quiet_assets", group: :development
 gem 'sqlite3', group: [:development, :test]
 gem "debugger", group: [:development, :test]
 
+gem 'unicorn', group: :production
+
+group :development do
+  gem 'capistrano', '~> 2'
+  gem 'capistrano-unicorn', require: false
+
+end
